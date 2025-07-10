@@ -1,0 +1,24 @@
+<mat-form-field
+  appearance="fill"
+>
+  <mat-label>Items</mat-label>
+  <mat-select
+    (openedChange)="openedChange()"
+    [formControl]="formControl"
+  >
+    <mat-select-trigger>Selected Item</mat-select-trigger>
+    <cdk-virtual-scroll-viewport
+      [itemSize]="48"
+      [minBufferPx]="400"
+      [maxBufferPx]="400"
+      class="virtual-scroll-viewport"
+    >
+      <mat-option
+        *cdkVirtualFor="let optionItem of options"
+        [value]="optionItem.id"
+      >
+        {{ optionItem.desc }}
+      </mat-option>
+    </cdk-virtual-scroll-viewport>
+  </mat-select>
+</mat-form-field>
