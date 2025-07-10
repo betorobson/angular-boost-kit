@@ -10,6 +10,6 @@ import { TesteClass } from '../sdk/teste-class';
 export class FancyButton {
   constructor(){
     const x = new TesteClass();
-    console.log('FancyButton', x.getNumber())
+    console.log('111FancyButton', x.getNumber())
   }
 }
