@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { TesteClass } from '../sdk/teste-class';
+import { MatButtonModule } from '@angular/material/button';
+import { TesteClass } from '../cdk/teste-class';
 
 @Component({
   selector: 'lib-fancy-button',
-  imports: [],
+  imports: [MatButtonModule],
   templateUrl: './fancy-button.html',
   styleUrl: './fancy-button.css'
 })
