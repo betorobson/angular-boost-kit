@@ -20,4 +20,10 @@ describe('FancyButton', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render title', () => {
+    const p = (fixture.nativeElement as HTMLElement).querySelector('p');
+    expect(p).toBeTruthy();
+  });
+
 });
