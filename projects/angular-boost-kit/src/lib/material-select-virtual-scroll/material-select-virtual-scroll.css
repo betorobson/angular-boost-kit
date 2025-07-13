@@ -1,3 +1,20 @@
+:host {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
 .virtual-scroll-viewport {
   height: 240px;
+}
+
+.loading-overlay {
+  background-color: rgba(0, 0, 0, .5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - var(--mat-sys-body-small-line-height));
+  z-index: 10;
+  /* --mat-sys-body-small-line-height */
 }

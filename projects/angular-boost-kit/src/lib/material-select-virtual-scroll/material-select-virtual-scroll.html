@@ -4,9 +4,9 @@
   }
 </ng-template>
 
-<mat-form-field
-  appearance="fill"
->
+<!-- <div class="loading-overlay">Loading</div> -->
+
+<mat-form-field>
   <mat-label>Items</mat-label>
   <mat-select
     (openedChange)="openedChange()"
@@ -18,22 +18,24 @@
         [ngTemplateOutletContext]="{ itemSelected }"
       ></ng-container>
     </mat-select-trigger>
-    <cdk-virtual-scroll-viewport
-      [itemSize]="48"
-      [minBufferPx]="400"
-      [maxBufferPx]="400"
-      class="virtual-scroll-viewport"
-    >
-      <mat-option
-        *cdkVirtualFor="let optionItem of options"
-        [value]="optionItem.id"
-        (click)="itemSelect(optionItem)"
+    @if(!loading){
+      <cdk-virtual-scroll-viewport
+        [itemSize]="48"
+        [minBufferPx]="400"
+        [maxBufferPx]="400"
+        class="virtual-scroll-viewport"
       >
-        <ng-container
-          [ngTemplateOutlet]="optionTemplate || defaultTemplate"
-          [ngTemplateOutletContext]="{ itemSelected: optionItem }"
-        ></ng-container>
-      </mat-option>
-    </cdk-virtual-scroll-viewport>
+        <mat-option
+          *cdkVirtualFor="let optionItem of options"
+          [value]="optionItem.id"
+          (click)="itemSelect(optionItem)"
+        >
+          <ng-container
+            [ngTemplateOutlet]="optionTemplate || defaultTemplate"
+            [ngTemplateOutletContext]="{ itemSelected: optionItem }"
+          ></ng-container>
+        </mat-option>
+      </cdk-virtual-scroll-viewport>
+    }
   </mat-select>
 </mat-form-field>
