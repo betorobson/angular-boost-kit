@@ -6,7 +6,12 @@
 
 <lib-material-select-virtual-scroll
   [formControl]="selectVirtualScrollFormControl"
+  [optionTemplate]="optionTemplate"
 >
-
+  <ng-template #optionTemplate let-itemSelected="itemSelected">
+    @if(itemSelected){
+      -- [{{itemSelected.id}}]: {{itemSelected.desc}} --
+    }
+  </ng-template>
 </lib-material-select-virtual-scroll>
 {{selectVirtualScrollFormControl.value}}
