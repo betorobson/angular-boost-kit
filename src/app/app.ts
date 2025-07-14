@@ -16,9 +16,8 @@ export class App {
 
   x = new TesteClass();
 
-  selectVirtualScrollFormControl = new FormControl<number | null>(null);
-
   selectVirtualScrollConfig: MaterialSelectVirtualScrollConfig<OptionItem> = {
+    formControl: new FormControl<number>(2),
     load: () => of(
         Array.from({length: 1000}).map((value, index) => ({
           id: index + 1,

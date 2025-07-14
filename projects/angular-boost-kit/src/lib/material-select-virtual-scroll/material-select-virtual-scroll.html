@@ -4,13 +4,17 @@
   }
 </ng-template>
 
-<!-- <div class="loading-overlay">Loading</div> -->
+@if(loading){
+  <div class="loading-overlay">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+}
 
 <mat-form-field>
   <mat-label>Items</mat-label>
   <mat-select
     (openedChange)="openedChange()"
-    [formControl]="formControl"
+    [formControl]="config.formControl"
   >
     <mat-select-trigger>
       <ng-container

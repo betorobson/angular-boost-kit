@@ -6,7 +6,6 @@
 
 <lib-material-select-virtual-scroll
   [config]="selectVirtualScrollConfig"
-  [formControl]="selectVirtualScrollFormControl"
   [optionTemplate]="optionTemplate"
 >
   <ng-template #optionTemplate let-itemSelected="itemSelected">
@@ -15,4 +14,4 @@
     }
   </ng-template>
 </lib-material-select-virtual-scroll>
-{{selectVirtualScrollFormControl.value}}
+{{selectVirtualScrollConfig.formControl.value}}

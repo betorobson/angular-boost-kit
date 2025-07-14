@@ -5,6 +5,7 @@ import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-exp
 import { MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger } from '@angular/material/select';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialSelectVirtualScrollConfig } from './config.interface';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'lib-material-select-virtual-scroll',
@@ -18,7 +19,8 @@ import { MaterialSelectVirtualScrollConfig } from './config.interface';
     MatLabel,
     MatSelect,
     MatSelectTrigger,
-    MatOption
+    MatOption,
+    MatProgressBar
   ],
   templateUrl: './material-select-virtual-scroll.html',
   styleUrl: './material-select-virtual-scroll.css'
@@ -28,15 +30,13 @@ export class MaterialSelectVirtualScroll implements OnInit {
   protected itemSelected: any;
   protected loading = false;
 
-  @Input({required: true}) config: MaterialSelectVirtualScrollConfig | undefined;
+  @Input({required: true}) config: MaterialSelectVirtualScrollConfig;
 
-  @Input({required: true}) formControl = new FormControl<number | null>(null);
-
-	@Input() optionTemplate: TemplateRef<any> | undefined;
-	@Input() triggerTemplate: TemplateRef<any> | undefined;
+	@Input() optionTemplate: TemplateRef<any>;
+	@Input() triggerTemplate: TemplateRef<any>;
 
 	@ViewChild(CdkVirtualScrollViewport, { static: false })
-		cdkVirtualScrollViewPort: CdkVirtualScrollViewport | undefined;
+		cdkVirtualScrollViewPort: CdkVirtualScrollViewport;
 
   protected options: Array<any> = [];
 
@@ -49,10 +49,22 @@ export class MaterialSelectVirtualScroll implements OnInit {
     const loadSubscriber = this.config?.load().subscribe(
       result => {
         this.options.push(...result);
+        this.itemSelectBasedOnFormControlvalue();
         this.loading = false;
         loadSubscriber?.unsubscribe();
       }
     )
+  }
+
+  itemSelectBasedOnFormControlvalue(){
+    const formControlValue = this.config.formControl.value;
+    if(formControlValue){
+      this.itemSelect(
+        this.options.find(
+          option => option.id === formControlValue
+        )
+      )
+    }
   }
 
   itemSelect(item: any){
