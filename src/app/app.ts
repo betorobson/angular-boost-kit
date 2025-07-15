@@ -31,6 +31,10 @@ export class App {
     console.log(this.x.getNumber());
   }
 
+  protected setSelectVirtualScrollFormControlValue(id: number){
+    this.selectVirtualScrollConfig.formControl.setValue(id);
+  }
+
 }
 
 export interface OptionItem {

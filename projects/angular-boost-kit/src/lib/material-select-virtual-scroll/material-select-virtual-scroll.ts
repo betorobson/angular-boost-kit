@@ -42,6 +42,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
   ngOnInit(): void {
     this.load();
+    this.subscribeFromControl();
   }
 
   private load(){
@@ -54,6 +55,13 @@ export class MaterialSelectVirtualScroll implements OnInit {
         loadSubscriber?.unsubscribe();
       }
     )
+  }
+
+  private subscribeFromControl(){
+    // [todo] auto unsubscribe
+    this.config.formControl.valueChanges.subscribe(() => {
+      this.itemSelectBasedOnFormControlvalue();
+    })
   }
 
   itemSelectBasedOnFormControlvalue(){
