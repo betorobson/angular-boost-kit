@@ -5,6 +5,7 @@
 <hr />
 
 <lib-material-select-virtual-scroll
+  #selectVirtualScrollParent
   [config]="selectVirtualScrollConfig"
   [optionTemplate]="optionTemplate"
 >
@@ -19,6 +20,12 @@
 </lib-material-select-virtual-scroll>
 <button (click)="setSelectVirtualScrollFormControlValue(3)"> change </button>
 {{selectVirtualScrollConfig.formControl.value}}
+
+<lib-material-select-virtual-scroll
+  [config]="selectVirtualChildScrollConfig"
+  [populateBasedOn]="selectVirtualScrollParent"
+>
+</lib-material-select-virtual-scroll>
 
 <hr />
 

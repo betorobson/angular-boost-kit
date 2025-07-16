@@ -29,6 +29,23 @@ export class App {
       .pipe(delay(1000))
   };
 
+  selectVirtualChildScrollConfig: MaterialSelectVirtualScrollConfig<OptionChildItem> = {
+    formControl: new FormControl<number>(2),
+    optionItemId: 'optionChildId',
+    optionItemDescription: 'optionChildDesc',
+    load: () => {
+        const parentId = this.selectVirtualScrollConfig.formControl.value;
+        return of<OptionChildItem[]>(
+          Array.from({length: 1000}).map((value, index) => ({
+            optionParentId: parentId,
+            optionChildId: index + 1,
+            optionChildDesc: `Parent ${parentId} | Item ${index + 1}`
+          }))
+        )
+        .pipe(delay(1000))
+    }
+  };
+
   constructor(){
     console.log(this.x.getNumber());
   }
@@ -42,4 +59,10 @@ export class App {
 export interface OptionItem {
   optionId: number,
   optionDesc: string
+}
+
+export interface OptionChildItem {
+  optionParentId: number,
+  optionChildId: number,
+  optionChildDesc: string
 }

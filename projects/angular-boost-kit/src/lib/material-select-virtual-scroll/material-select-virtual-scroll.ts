@@ -34,6 +34,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
 	@Input() optionTemplate: TemplateRef<any>;
 	@Input() triggerTemplate: TemplateRef<any>;
+	@Input() populateBasedOn: MaterialSelectVirtualScroll;
 
 	@ViewChild(CdkVirtualScrollViewport, { static: false })
 		cdkVirtualScrollViewPort: CdkVirtualScrollViewport;
@@ -41,8 +42,11 @@ export class MaterialSelectVirtualScroll implements OnInit {
   protected options: Array<any> = [];
 
   ngOnInit(): void {
-    this.load();
+    if(!this.populateBasedOn){
+      this.load();
+    }
     this.subscribeFromControl();
+    this.initPopulateBasedOn();
   }
 
   private load(){
@@ -55,6 +59,24 @@ export class MaterialSelectVirtualScroll implements OnInit {
         loadSubscriber?.unsubscribe();
       }
     )
+  }
+
+  private initPopulateBasedOn(){
+    if(this.populateBasedOn){
+
+      if(this.populateBasedOn.config.formControl.value){
+        this.load();
+      }
+
+      this.populateBasedOn.config.formControl.valueChanges.subscribe(
+        () => this.populateBasedOnValueChangesResult()
+      );
+
+    }
+  }
+
+  private populateBasedOnValueChangesResult(){
+    this.load();
   }
 
   private subscribeFromControl(){
