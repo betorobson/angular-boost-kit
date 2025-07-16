@@ -67,6 +67,8 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
       const allBaseOnFormControlsHasValue = this.allBaseOnFormControlsHasValue();
 
+      this.config.formControl.setValue(null);
+
       if(allBaseOnFormControlsHasValue){
         this.load();
       }
@@ -78,7 +80,9 @@ export class MaterialSelectVirtualScroll implements OnInit {
           formControl => formControl.valueChanges
         )
       ).subscribe(
-        () => this.populateBasedOnValueChangesResult()
+        () => {
+          this.populateBasedOnValueChangesResult();
+        }
       );
 
 
@@ -92,7 +96,12 @@ export class MaterialSelectVirtualScroll implements OnInit {
 	}
 
   private populateBasedOnValueChangesResult(){
-    this.load();
+    const allBaseOnFormControlsHasValue = this.allBaseOnFormControlsHasValue();
+    this.config.formControl.setValue(null);
+    this.options.splice(0);
+    if(allBaseOnFormControlsHasValue){
+      this.load();
+    }
   }
 
   private subscribeFromControl(){
