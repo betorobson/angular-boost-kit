@@ -29,20 +29,49 @@ export class App {
       .pipe(delay(1000))
   };
 
-  selectVirtualChildScrollConfig: MaterialSelectVirtualScrollConfig<OptionChildItem> = {
-    formControl: new FormControl<number>(2),
+  selectVirtualScrollConfig2: MaterialSelectVirtualScrollConfig<OptionChildItem> = {
+    formControl: new FormControl<number>(null),
     optionItemId: 'optionChildId',
     optionItemDescription: 'optionChildDesc',
+    populateBasedOnFormControls: [
+      this.selectVirtualScrollConfig.formControl
+    ],
     load: () => {
-        const parentId = this.selectVirtualScrollConfig.formControl.value;
-        return of<OptionChildItem[]>(
-          Array.from({length: 1000}).map((value, index) => ({
-            optionParentId: parentId,
-            optionChildId: index + 1,
-            optionChildDesc: `Parent ${parentId} | Item ${index + 1}`
-          }))
-        )
-        .pipe(delay(1000))
+      const parentsId = [
+        this.selectVirtualScrollConfig.formControl.value
+      ];
+      return of<OptionChildItem[]>(
+        Array.from({length: 1000}).map((value, index) => ({
+          optionParentId: parentsId.join(','),
+          optionChildId: index + 1,
+          optionChildDesc: `Parent ${parentsId.join(',')} | Item ${index + 1}`
+        }))
+      )
+      .pipe(delay(1000))
+    }
+  };
+
+  selectVirtualChildScrollConfig: MaterialSelectVirtualScrollConfig<OptionChildItem> = {
+    formControl: new FormControl<number>(null),
+    optionItemId: 'optionChildId',
+    optionItemDescription: 'optionChildDesc',
+    populateBasedOnFormControls: [
+      this.selectVirtualScrollConfig.formControl,
+      this.selectVirtualScrollConfig2.formControl
+    ],
+    load: () => {
+      const parentsId = [
+        this.selectVirtualScrollConfig.formControl.value,
+        this.selectVirtualScrollConfig2.formControl.value
+      ];
+      return of<OptionChildItem[]>(
+        Array.from({length: 1000}).map((value, index) => ({
+          optionParentId: parentsId.join(','),
+          optionChildId: index + 1,
+          optionChildDesc: `Parent ${parentsId.join(',')} | Item ${index + 1}`
+        }))
+      )
+      .pipe(delay(1000))
     }
   };
 
@@ -62,7 +91,7 @@ export interface OptionItem {
 }
 
 export interface OptionChildItem {
-  optionParentId: number,
+  optionParentId: string,
   optionChildId: number,
   optionChildDesc: string
 }

@@ -4,6 +4,9 @@
 
 <hr />
 
+<button (click)="setSelectVirtualScrollFormControlValue(3)"> change </button>
+{{selectVirtualScrollConfig.formControl.value}}
+
 <lib-material-select-virtual-scroll
   #selectVirtualScrollParent
   [config]="selectVirtualScrollConfig"
@@ -18,12 +21,15 @@
     }
   </ng-template>
 </lib-material-select-virtual-scroll>
-<button (click)="setSelectVirtualScrollFormControlValue(3)"> change </button>
-{{selectVirtualScrollConfig.formControl.value}}
+
+<lib-material-select-virtual-scroll
+  #selectVirtualScrollParent
+  [config]="selectVirtualScrollConfig2"
+>
+</lib-material-select-virtual-scroll>
 
 <lib-material-select-virtual-scroll
   [config]="selectVirtualChildScrollConfig"
-  [populateBasedOn]="selectVirtualScrollParent"
 >
 </lib-material-select-virtual-scroll>
 

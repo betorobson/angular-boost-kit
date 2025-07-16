@@ -6,6 +6,7 @@ import { MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger } from '
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialSelectVirtualScrollConfig } from './config.interface';
 import { MatProgressBar } from '@angular/material/progress-bar';
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'lib-material-select-virtual-scroll',
@@ -34,7 +35,6 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
 	@Input() optionTemplate: TemplateRef<any>;
 	@Input() triggerTemplate: TemplateRef<any>;
-	@Input() populateBasedOn: MaterialSelectVirtualScroll;
 
 	@ViewChild(CdkVirtualScrollViewport, { static: false })
 		cdkVirtualScrollViewPort: CdkVirtualScrollViewport;
@@ -42,7 +42,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
   protected options: Array<any> = [];
 
   ngOnInit(): void {
-    if(!this.populateBasedOn){
+    if(!this.config.populateBasedOnFormControls){
       this.load();
     }
     this.subscribeFromControl();
@@ -53,6 +53,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
     this.loading = true;
     const loadSubscriber = this.config?.load().subscribe(
       result => {
+        this.options.splice(0);
         this.options.push(...result);
         this.itemSelectBasedOnFormControlvalue();
         this.loading = false;
@@ -62,18 +63,33 @@ export class MaterialSelectVirtualScroll implements OnInit {
   }
 
   private initPopulateBasedOn(){
-    if(this.populateBasedOn){
+    if(this.config.populateBasedOnFormControls){
 
-      if(this.populateBasedOn.config.formControl.value){
+      const allBaseOnFormControlsHasValue = this.allBaseOnFormControlsHasValue();
+
+      if(allBaseOnFormControlsHasValue){
         this.load();
       }
 
-      this.populateBasedOn.config.formControl.valueChanges.subscribe(
+      // [todo] auto unsubscribe
+      merge.apply(
+        this,
+        this.config.populateBasedOnFormControls.map(
+          formControl => formControl.valueChanges
+        )
+      ).subscribe(
         () => this.populateBasedOnValueChangesResult()
       );
 
+
     }
   }
+
+  private allBaseOnFormControlsHasValue(){
+		return !this.config.populateBasedOnFormControls?.find(
+			formControl => formControl.getRawValue() === null
+		);
+	}
 
   private populateBasedOnValueChangesResult(){
     this.load();
