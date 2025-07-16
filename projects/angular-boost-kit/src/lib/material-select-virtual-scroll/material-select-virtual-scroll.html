@@ -1,6 +1,6 @@
 <ng-template #defaultTemplate let-itemSelected="itemSelected">
 	@if(itemSelected){
-    {{itemSelected.desc}}
+    {{itemSelected[config.optionItemDescription]}}
   }
 </ng-template>
 
@@ -31,7 +31,7 @@
       >
         <mat-option
           *cdkVirtualFor="let optionItem of options"
-          [value]="optionItem.id"
+          [value]="optionItem[config.optionItemId]"
           (click)="itemSelect(optionItem)"
         >
           <ng-container

@@ -18,10 +18,12 @@ export class App {
 
   selectVirtualScrollConfig: MaterialSelectVirtualScrollConfig<OptionItem> = {
     formControl: new FormControl<number>(2),
-    load: () => of(
+    optionItemId: 'optionId',
+    optionItemDescription: 'optionDesc',
+    load: () => of<OptionItem[]>(
         Array.from({length: 1000}).map((value, index) => ({
-          id: index + 1,
-          desc: `Item ${index + 1}`
+          optionId: index + 1,
+          optionDesc: `Item ${index + 1}`
         }))
       )
       .pipe(delay(1000))
@@ -38,6 +40,6 @@ export class App {
 }
 
 export interface OptionItem {
-  id: number,
-  desc: string
+  optionId: number,
+  optionDesc: string
 }

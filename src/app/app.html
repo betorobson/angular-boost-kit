@@ -10,7 +10,10 @@
 >
   <ng-template #optionTemplate let-itemSelected="itemSelected">
     @if(itemSelected){
-      -- [{{itemSelected.id}}]: {{itemSelected.desc}} --
+      --
+      [{{itemSelected[selectVirtualScrollConfig.optionItemId]}}]:
+      {{itemSelected[selectVirtualScrollConfig.optionItemDescription]}}
+      --
     }
   </ng-template>
 </lib-material-select-virtual-scroll>

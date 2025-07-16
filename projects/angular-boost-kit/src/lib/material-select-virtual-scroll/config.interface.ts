@@ -4,4 +4,6 @@ import { Observable } from "rxjs";
 export interface MaterialSelectVirtualScrollConfig<T = any> {
   formControl: FormControl<number>;
   load: () => Observable<Array<T>>;
+  optionItemId: keyof T;
+  optionItemDescription: keyof T;
 }

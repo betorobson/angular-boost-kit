@@ -69,7 +69,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
     if(formControlValue){
       this.itemSelect(
         this.options.find(
-          option => option.id === formControlValue
+          option => option[this.config.optionItemId] === formControlValue
         )
       )
     }
