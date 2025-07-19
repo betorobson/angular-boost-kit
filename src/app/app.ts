@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { FancyButton, MaterialSelectVirtualScroll, MaterialSelectVirtualScrollConfig, TesteClass,  } from 'angular-boost-kit';
 import { delay, of } from 'rxjs';
+import { APIStatesCitiesNeighborhoods, APIStatesItem } from './api-services/states-cities-neighborhoods';
 
 @Component({
   selector: 'app-root',
@@ -14,19 +15,15 @@ export class App {
 
   protected title = 'angular-boot-kit';
 
+  private apiStatesCitiesNeighborhoods = inject(APIStatesCitiesNeighborhoods);
+
   x = new TesteClass();
 
-  selectVirtualScrollConfig: MaterialSelectVirtualScrollConfig<OptionItem> = {
+  selectVirtualScrollConfig: MaterialSelectVirtualScrollConfig<APIStatesItem> = {
     formControl: new FormControl<number>(2),
-    optionItemId: 'optionId',
-    optionItemDescription: 'optionDesc',
-    load: () => of<OptionItem[]>(
-        Array.from({length: 1000}).map((value, index) => ({
-          optionId: index + 1,
-          optionDesc: `Item ${index + 1}`
-        }))
-      )
-      .pipe(delay(1000))
+    optionItemId: 'stateId',
+    optionItemDescription: 'stateName',
+    load: () => this.apiStatesCitiesNeighborhoods.getStates()
   };
 
   selectVirtualScrollConfig2: MaterialSelectVirtualScrollConfig<OptionChildItem> = {
