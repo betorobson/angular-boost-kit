@@ -6,7 +6,9 @@ import { MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger } from '
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialSelectVirtualScrollConfig } from './config.interface';
 import { MatProgressBar } from '@angular/material/progress-bar';
-import { merge } from 'rxjs';
+import { debounceTime, delay, distinctUntilChanged, merge, of, switchMap } from 'rxjs';
+import { MatInput } from '@angular/material/input';
+import { FilterData } from '../cdk/text-search';
 
 @Component({
   selector: 'lib-material-select-virtual-scroll',
@@ -17,6 +19,7 @@ import { merge } from 'rxjs';
     ScrollingModule,
     ExperimentalScrollingModule,
     MatFormField,
+    MatInput,
     MatLabel,
     MatSelect,
     MatSelectTrigger,
@@ -31,6 +34,8 @@ export class MaterialSelectVirtualScroll implements OnInit {
   protected itemSelected: any;
   protected loading = false;
 
+  protected formControlSearch = new FormControl<string>('');
+
   @Input({required: true}) config: MaterialSelectVirtualScrollConfig;
 
 	@Input() optionTemplate: TemplateRef<any>;
@@ -40,6 +45,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
 		cdkVirtualScrollViewPort: CdkVirtualScrollViewport;
 
   protected options: Array<any> = [];
+  private rawOptions: Array<any> = [];
 
   ngOnInit(): void {
     if(!this.config.populateBasedOnFormControls){
@@ -47,19 +53,36 @@ export class MaterialSelectVirtualScroll implements OnInit {
     }
     this.subscribeFromControl();
     this.initPopulateBasedOn();
+    this.search();
   }
 
   private load(){
     this.loading = true;
     const loadSubscriber = this.config?.load().subscribe(
       result => {
-        this.options.splice(0);
+        this.rawOptions.splice(0);
+        this.rawOptions.push(...result);
         this.options.push(...result);
         this.itemSelectBasedOnFormControlvalue();
         this.loading = false;
         loadSubscriber?.unsubscribe();
       }
     )
+  }
+
+  private search(){
+    this.formControlSearch.valueChanges
+    .pipe(
+      debounceTime(200),
+      distinctUntilChanged()
+    )
+    .subscribe(keyword => {
+      this.options = FilterData(
+        keyword,
+        this.rawOptions,
+        this.config.optionItemDescription.toString()
+      )
+    });
   }
 
   private initPopulateBasedOn(){

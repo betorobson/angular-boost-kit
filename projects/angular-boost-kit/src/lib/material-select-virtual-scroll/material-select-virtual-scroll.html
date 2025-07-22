@@ -16,6 +16,12 @@
     (openedChange)="openedChange()"
     [formControl]="config.formControl"
   >
+    <mat-form-field
+      class="field-search"
+    >
+      <mat-label>Busca</mat-label>
+      <input type="text" matInput [formControl]="formControlSearch" />
+    </mat-form-field>
     <mat-select-trigger>
       <ng-container
         [ngTemplateOutlet]="triggerTemplate || optionTemplate || defaultTemplate"
