@@ -4,26 +4,31 @@
 
 <hr />
 
-<button (click)="setSelectVirtualScrollFormControlValue(3)"> change </button>
-{{selectVirtualScrollConfig.formControl.value}}
-
 <lib-material-select-virtual-scroll
   #selectVirtualScrollParent
-  [config]="selectVirtualScrollConfig"
+  [config]="selectVirtualScrollStatesConfig"
   [optionTemplate]="optionTemplate"
 >
   <ng-template #optionTemplate let-itemSelected="itemSelected">
     @if(itemSelected){
-      [{{itemSelected[selectVirtualScrollConfig.optionItemId]}}]:
-      {{itemSelected[selectVirtualScrollConfig.optionItemDescription]}}
+      [{{itemSelected[selectVirtualScrollStatesConfig.optionItemId]}}]:
+      {{itemSelected[selectVirtualScrollStatesConfig.optionItemDescription]}}
     }
   </ng-template>
 </lib-material-select-virtual-scroll>
 
 <lib-material-select-virtual-scroll
   #selectVirtualScrollParent
-  [config]="selectVirtualScrollConfig2"
+  [config]="selectVirtualScrollCitiesConfig"
+  [optionTemplate]="citiesOptionTemplate"
 >
+  <ng-template #citiesOptionTemplate let-itemSelected="itemSelected">
+    @if(itemSelected){
+      {{itemSelected.stateId}}
+       -
+      {{itemSelected[selectVirtualScrollCitiesConfig.optionItemDescription]}}
+    }
+  </ng-template>
 </lib-material-select-virtual-scroll>
 
 <lib-material-select-virtual-scroll

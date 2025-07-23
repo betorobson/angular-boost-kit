@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { FancyButton, MaterialSelectVirtualScroll, MaterialSelectVirtualScrollConfig, TesteClass,  } from 'angular-boost-kit';
 import { delay, of } from 'rxjs';
-import { APIStatesCitiesNeighborhoods, APIStatesItem } from './api-services/states-cities-neighborhoods';
+import { APICitiesItem, APIStatesCitiesNeighborhoods, APIStatesItem } from './api-services/states-cities-neighborhoods';
 
 @Component({
   selector: 'app-root',
@@ -19,33 +19,23 @@ export class App {
 
   x = new TesteClass();
 
-  selectVirtualScrollConfig: MaterialSelectVirtualScrollConfig<APIStatesItem> = {
-    formControl: new FormControl<number>(2),
+  selectVirtualScrollStatesConfig: MaterialSelectVirtualScrollConfig<APIStatesItem> = {
+    formControl: new FormControl<string>(null),
     optionItemId: 'stateId',
     optionItemDescription: 'stateName',
     load: () => this.apiStatesCitiesNeighborhoods.getStates()
   };
 
-  selectVirtualScrollConfig2: MaterialSelectVirtualScrollConfig<OptionChildItem> = {
+  selectVirtualScrollCitiesConfig: MaterialSelectVirtualScrollConfig<APICitiesItem> = {
     formControl: new FormControl<number>(null),
-    optionItemId: 'optionChildId',
-    optionItemDescription: 'optionChildDesc',
+    optionItemId: 'cityId',
+    optionItemDescription: 'cityName',
     populateBasedOnFormControls: [
-      this.selectVirtualScrollConfig.formControl
+      this.selectVirtualScrollStatesConfig.formControl
     ],
-    load: () => {
-      const parentsId = [
-        this.selectVirtualScrollConfig.formControl.value
-      ];
-      return of<OptionChildItem[]>(
-        Array.from({length: 1000}).map((value, index) => ({
-          optionParentId: parentsId.join(','),
-          optionChildId: index + 1,
-          optionChildDesc: `Parent ${parentsId.join(',')} | Item ${index + 1}`
-        }))
-      )
-      .pipe(delay(1000))
-    }
+    load: () => this.apiStatesCitiesNeighborhoods.getCities(
+      this.selectVirtualScrollStatesConfig.formControl.value
+    )
   };
 
   selectVirtualChildScrollConfig: MaterialSelectVirtualScrollConfig<OptionChildItem> = {
@@ -53,13 +43,13 @@ export class App {
     optionItemId: 'optionChildId',
     optionItemDescription: 'optionChildDesc',
     populateBasedOnFormControls: [
-      this.selectVirtualScrollConfig.formControl,
-      this.selectVirtualScrollConfig2.formControl
+      this.selectVirtualScrollStatesConfig.formControl,
+      this.selectVirtualScrollCitiesConfig.formControl
     ],
     load: () => {
       const parentsId = [
-        this.selectVirtualScrollConfig.formControl.value,
-        this.selectVirtualScrollConfig2.formControl.value
+        this.selectVirtualScrollStatesConfig.formControl.value,
+        this.selectVirtualScrollCitiesConfig.formControl.value
       ];
       return of<OptionChildItem[]>(
         Array.from({length: 1000}).map((value, index) => ({
@@ -77,7 +67,7 @@ export class App {
   }
 
   protected setSelectVirtualScrollFormControlValue(id: number){
-    this.selectVirtualScrollConfig.formControl.setValue(id);
+    this.selectVirtualScrollStatesConfig.formControl.setValue(id);
   }
 
 }
