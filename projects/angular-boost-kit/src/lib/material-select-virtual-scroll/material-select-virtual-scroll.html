@@ -14,6 +14,7 @@
   <mat-label>Items</mat-label>
   <mat-select
     (openedChange)="openedChange()"
+    (opened)="opened()"
     [formControl]="config.formControl"
   >
     <mat-select-trigger>
@@ -28,7 +29,7 @@
           class="field-search"
         >
           <mat-label>Busca</mat-label>
-          <input type="text" matInput [formControl]="formControlSearch" />
+          <input #inputSearch type="text" matInput [formControl]="formControlSearch" />
         </mat-form-field>
         <cdk-virtual-scroll-viewport
           [itemSize]="48"

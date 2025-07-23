@@ -41,8 +41,10 @@ export class MaterialSelectVirtualScroll implements OnInit {
 	@Input() optionTemplate: TemplateRef<any>;
 	@Input() triggerTemplate: TemplateRef<any>;
 
+  @ViewChild('inputSearch') private inputSearch: ElementRef<HTMLInputElement>;
+
 	@ViewChild(CdkVirtualScrollViewport, { static: false })
-		cdkVirtualScrollViewPort: CdkVirtualScrollViewport;
+		private cdkVirtualScrollViewPort: CdkVirtualScrollViewport;
 
   protected options: Array<any> = [];
   private rawOptions: Array<any> = [];
@@ -151,6 +153,10 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
   protected openedChange(){
     this.openedChangeCDKVirtualScroll();
+  }
+
+  protected opened(){
+    setTimeout(() => this.inputSearch.nativeElement.focus());
   }
 
   private openedChangeCDKVirtualScroll(){
