@@ -22,37 +22,39 @@
         [ngTemplateOutletContext]="{ itemSelected }"
       ></ng-container>
     </mat-select-trigger>
+    @if(!loading){
+      <div class="container-panel">
+        <mat-form-field
+          class="field-search"
+        >
+          <mat-label>Busca</mat-label>
+          <input type="text" matInput [formControl]="formControlSearch" />
+        </mat-form-field>
+        <cdk-virtual-scroll-viewport
+          [itemSize]="48"
+          [minBufferPx]="400"
+          [maxBufferPx]="400"
+          class="virtual-scroll-viewport"
+        >
+          <mat-option
+            *cdkVirtualFor="let optionItem of options"
+            [value]="optionItem[config.optionItemId]"
+            (click)="itemSelect(optionItem)"
+          >
+            <ng-container
+              [ngTemplateOutlet]="optionTemplate || defaultTemplate"
+              [ngTemplateOutletContext]="{ itemSelected: optionItem }"
+            ></ng-container>
+          </mat-option>
+        </cdk-virtual-scroll-viewport>
+      </div>
+    }
     @if (itemSelected) {
       <mat-option
         [value]="itemSelected[config.optionItemId]"
         class="option-workaround"
       >
       </mat-option>
-    }
-    @if(!loading){
-      <mat-form-field
-        class="field-search"
-      >
-        <mat-label>Busca</mat-label>
-        <input type="text" matInput [formControl]="formControlSearch" />
-      </mat-form-field>
-      <cdk-virtual-scroll-viewport
-        [itemSize]="48"
-        [minBufferPx]="400"
-        [maxBufferPx]="400"
-        class="virtual-scroll-viewport"
-      >
-        <mat-option
-          *cdkVirtualFor="let optionItem of options"
-          [value]="optionItem[config.optionItemId]"
-          (click)="itemSelect(optionItem)"
-        >
-          <ng-container
-            [ngTemplateOutlet]="optionTemplate || defaultTemplate"
-            [ngTemplateOutletContext]="{ itemSelected: optionItem }"
-          ></ng-container>
-        </mat-option>
-      </cdk-virtual-scroll-viewport>
     }
   </mat-select>
 </mat-form-field>
