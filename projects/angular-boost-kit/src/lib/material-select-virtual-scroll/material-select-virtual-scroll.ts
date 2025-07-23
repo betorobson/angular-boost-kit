@@ -156,6 +156,12 @@ export class MaterialSelectVirtualScroll implements OnInit {
   private openedChangeCDKVirtualScroll(){
     if(this.cdkVirtualScrollViewPort){
       this.cdkVirtualScrollViewPort.checkViewportSize();
+      if(this.itemSelected){
+        const index = this.options.findIndex(
+          option => option[this.config.optionItemId] === this.itemSelected[this.config.optionItemId]
+        )
+        this.cdkVirtualScrollViewPort.scrollToIndex(index);
+      }
     }
   }
 
