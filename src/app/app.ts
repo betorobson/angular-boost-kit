@@ -24,6 +24,7 @@ export class App {
     formControl: new FormControl<string>(null),
     optionItemId: 'stateId',
     optionItemDescription: 'stateName',
+    replaceArrowByResetButton: true,
     load: () => this.apiStatesCitiesNeighborhoods.getStates()
   };
 

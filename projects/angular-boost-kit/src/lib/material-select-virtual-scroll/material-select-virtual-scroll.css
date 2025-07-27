@@ -2,6 +2,17 @@
   position: relative;
   display: flex;
   flex-direction: column;
+
+  mat-form-field {
+    &.has-value {
+      &.replace-arrow-by-reset-button {
+        ::ng-deep .mat-mdc-select-arrow-wrapper {
+          display: none;
+        }
+      }
+    }
+  }
+
 }
 
 .container-panel {

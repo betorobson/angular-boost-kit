@@ -7,4 +7,12 @@ lib-material-select-virtual-scroll {
   flex-direction: row;
   align-items: center;
   gap: 8px;
+  mat-icon {
+    display: flex;
+    flex: 0 0 auto;
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    overflow: hidden;
+  }
 }

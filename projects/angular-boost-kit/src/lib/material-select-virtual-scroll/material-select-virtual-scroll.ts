@@ -10,6 +10,7 @@ import { debounceTime, delay, distinctUntilChanged, merge, of, switchMap } from 
 import { MatInput } from '@angular/material/input';
 import { FilterData } from '../cdk/text-search';
 import { MatIcon } from '@angular/material/icon';
+import { MatButton, MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'lib-material-select-virtual-scroll',
@@ -26,6 +27,8 @@ import { MatIcon } from '@angular/material/icon';
     MatSelectTrigger,
     MatOption,
     MatProgressBar,
+    MatButton,
+    MatIconButton,
     MatIcon,
     MatSuffix,
   ],
@@ -152,6 +155,11 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
   itemSelect(item: any){
     this.itemSelected = item;
+  }
+
+  reset($event: MouseEvent){
+    $event.stopPropagation();
+    this.config.formControl.setValue(null);
   }
 
   protected openedChange(){
