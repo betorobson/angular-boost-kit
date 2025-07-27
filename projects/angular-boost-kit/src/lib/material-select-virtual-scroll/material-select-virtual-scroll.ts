@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Input, input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
-import { MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger } from '@angular/material/select';
+import { MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger, MatSuffix } from '@angular/material/select';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialSelectVirtualScrollConfig } from './config.interface';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { debounceTime, delay, distinctUntilChanged, merge, of, switchMap } from 'rxjs';
 import { MatInput } from '@angular/material/input';
 import { FilterData } from '../cdk/text-search';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'lib-material-select-virtual-scroll',
@@ -24,7 +25,9 @@ import { FilterData } from '../cdk/text-search';
     MatSelect,
     MatSelectTrigger,
     MatOption,
-    MatProgressBar
+    MatProgressBar,
+    MatIcon,
+    MatSuffix,
   ],
   templateUrl: './material-select-virtual-scroll.html',
   styleUrl: './material-select-virtual-scroll.css'

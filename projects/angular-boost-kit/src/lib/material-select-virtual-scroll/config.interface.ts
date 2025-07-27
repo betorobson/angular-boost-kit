@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 
 export interface MaterialSelectVirtualScrollConfig<T = any> {
   formControl: FormControl;
+  hideResetOption?: boolean;
   load: () => Observable<Array<T>>;
   populateBasedOnFormControls?: FormControl[];
   optionItemId: keyof T;

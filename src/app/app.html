@@ -8,7 +8,19 @@
   #selectVirtualScrollParent
   [config]="selectVirtualScrollStatesConfig"
   [optionTemplate]="optionTemplate"
+  [triggerTemplate]="triggerTemplate"
 >
+  <ng-template #triggerTemplate let-itemSelected="itemSelected">
+    @if(itemSelected){
+      <div class="trigger-template">
+        <mat-icon>radio_button_checked</mat-icon>
+        <span>
+          [{{itemSelected[selectVirtualScrollStatesConfig.optionItemId]}}]:
+          {{itemSelected[selectVirtualScrollStatesConfig.optionItemDescription]}}
+        </span>
+      </div>
+    }
+  </ng-template>
   <ng-template #optionTemplate let-itemSelected="itemSelected">
     @if(itemSelected){
       [{{itemSelected[selectVirtualScrollStatesConfig.optionItemId]}}]:

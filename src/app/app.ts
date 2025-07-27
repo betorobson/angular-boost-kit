@@ -1,13 +1,14 @@
 import { Component, inject, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
 import { FancyButton, MaterialSelectVirtualScroll, MaterialSelectVirtualScrollConfig, TesteClass,  } from 'angular-boost-kit';
 import { delay, of } from 'rxjs';
 import { APICitiesItem, APIStatesCitiesNeighborhoods, APIStatesItem } from './api-services/states-cities-neighborhoods';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FancyButton, MaterialSelectVirtualScroll],
+  imports: [RouterOutlet, FancyButton, MaterialSelectVirtualScroll, MatIcon],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

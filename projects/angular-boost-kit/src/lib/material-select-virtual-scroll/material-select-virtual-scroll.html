@@ -38,6 +38,10 @@
           class="virtual-scroll-viewport"
         >
           <mat-option
+            [value]="null"
+            (click)="itemSelect(null)"
+          >None</mat-option>
+          <mat-option
             *cdkVirtualFor="let optionItem of options"
             [value]="optionItem[config.optionItemId]"
             (click)="itemSelect(optionItem)"
