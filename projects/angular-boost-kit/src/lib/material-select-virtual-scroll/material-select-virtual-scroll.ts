@@ -37,10 +37,12 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 })
 export class MaterialSelectVirtualScroll implements OnInit {
 
-  protected itemSelected: any;
+  protected itemSelected: any[] = [];
   protected loading = false;
 
   protected formControlSearch = new FormControl<string>('');
+
+  protected hasValue = false;
 
   @Input({required: true}) config: MaterialSelectVirtualScrollConfig;
 
@@ -138,23 +140,64 @@ export class MaterialSelectVirtualScroll implements OnInit {
   private subscribeFromControl(){
     // [todo] auto unsubscribe
     this.config.formControl.valueChanges.subscribe(() => {
+
       this.itemSelectBasedOnFormControlvalue();
+      this.setHasValue();
+
+      if(
+        this.config.multiple
+        &&
+        Array.isArray(this.config.formControl.value)
+        &&
+        this.config.formControl.value.length === 0
+      ){
+        this.config.formControl.setValue(null, {emitEvent: false});
+        this.setHasValue();
+      }
+
     })
   }
 
-  itemSelectBasedOnFormControlvalue(){
-    const formControlValue = this.config.formControl.value;
-    if(formControlValue){
-      this.itemSelect(
-        this.options.find(
-          option => option[this.config.optionItemId] === formControlValue
-        )
-      )
+  private setHasValue(){
+    if(this.config.multiple){
+      this.hasValue = this.config.formControl.value
+      ||
+      Array.isArray(this.config.formControl.value)
+      &&
+      this.config.formControl.value.length;
+    }else{
+      this.hasValue = !!this.config.formControl.value;
     }
   }
 
-  itemSelect(item: any){
-    this.itemSelected = item;
+  itemSelectBasedOnFormControlvalue(){
+
+    const formControlValue = this.config.formControl.value;
+
+    if(formControlValue){
+      if(this.config.multiple && Array.isArray(formControlValue)){
+        this.itemSelect(
+          this.options.filter(
+            option => formControlValue.includes(option[this.config.optionItemId])
+          )
+        )
+      }else if(!this.config.multiple && !Array.isArray(formControlValue)){
+        this.itemSelect(
+          this.options.filter(
+            option => option[this.config.optionItemId] === formControlValue
+          )
+        )
+      }
+    }else{
+      this.itemSelect(null);
+    }
+  }
+
+  itemSelect(items: any[]){
+    this.itemSelected.splice(0);
+    if(items && items.length){
+      this.itemSelected.push(...items);
+    }
   }
 
   reset($event: MouseEvent){
@@ -173,9 +216,9 @@ export class MaterialSelectVirtualScroll implements OnInit {
   private openedChangeCDKVirtualScroll(){
     if(this.cdkVirtualScrollViewPort){
       this.cdkVirtualScrollViewPort.checkViewportSize();
-      if(this.itemSelected){
+      if(this.itemSelected?.[0]){
         const index = this.options.findIndex(
-          option => option[this.config.optionItemId] === this.itemSelected[this.config.optionItemId]
+          option => option[this.config.optionItemId] === this.itemSelected[0][this.config.optionItemId]
         )
         this.cdkVirtualScrollViewPort.scrollToIndex(index);
       }

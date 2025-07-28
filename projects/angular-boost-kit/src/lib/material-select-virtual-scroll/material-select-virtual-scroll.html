@@ -1,5 +1,9 @@
 <ng-template #defaultTemplate let-itemSelected="itemSelected">
-	@if(itemSelected){
+  @if(config.multiple && itemSelected.length){
+    @for(item of itemSelected; track $index){
+      {{item[config.optionItemDescription]}},
+    }
+  }@else if(itemSelected){
     {{itemSelected[config.optionItemDescription]}}
   }
 </ng-template>
@@ -12,7 +16,7 @@
 
 <mat-form-field
   [ngClass]="{
-    'has-value': !!config.formControl.value,
+    'has-value': hasValue,
     'replace-arrow-by-reset-button': config.replaceArrowByResetButton
   }
   "
@@ -22,11 +26,16 @@
     (openedChange)="openedChange()"
     (opened)="opened()"
     [formControl]="config.formControl"
+    [multiple]="config.multiple"
   >
     <mat-select-trigger>
       <ng-container
         [ngTemplateOutlet]="triggerTemplate || optionTemplate || defaultTemplate"
-        [ngTemplateOutletContext]="{ itemSelected }"
+        [ngTemplateOutletContext]="{
+          itemSelected: config.multiple
+            ? itemSelected
+            : itemSelected?.[0]
+         }"
       ></ng-container>
     </mat-select-trigger>
     @if(!loading){
@@ -56,7 +65,6 @@
           <mat-option
             *cdkVirtualFor="let optionItem of options"
             [value]="optionItem[config.optionItemId]"
-            (click)="itemSelect(optionItem)"
           >
             <ng-container
               [ngTemplateOutlet]="optionTemplate || defaultTemplate"
@@ -66,16 +74,16 @@
         </cdk-virtual-scroll-viewport>
       </div>
     }
-    @if (itemSelected) {
+    @if (itemSelected?.[0]) {
       <mat-option
-        [value]="itemSelected[config.optionItemId]"
+        [value]="itemSelected?.[0]?.[config.optionItemId]"
         class="option-workaround"
       >
       </mat-option>
     }
   </mat-select>
   @if (
-    !!config.formControl.value
+    hasValue
     &&
     config.replaceArrowByResetButton
   ) {

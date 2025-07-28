@@ -5,10 +5,11 @@ import { MatIcon } from '@angular/material/icon';
 import { FancyButton, MaterialSelectVirtualScroll, MaterialSelectVirtualScrollConfig, TesteClass,  } from 'angular-boost-kit';
 import { delay, of } from 'rxjs';
 import { APICitiesItem, APIStatesCitiesNeighborhoods, APIStatesItem } from './api-services/states-cities-neighborhoods';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FancyButton, MaterialSelectVirtualScroll, MatIcon],
+  imports: [RouterOutlet, CommonModule, FancyButton, MaterialSelectVirtualScroll, MatIcon],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -64,6 +65,23 @@ export class App {
     }
   };
 
+  selectVirtualScrollMultipleConfig: MaterialSelectVirtualScrollConfig<OptionMulitpleItem> = {
+    formControl: new FormControl<number[]>(null),
+    multiple: true,
+    replaceArrowByResetButton: true,
+    optionItemId: 'optionChildId',
+    optionItemDescription: 'optionChildDesc',
+    load: () => {
+      return of<OptionMulitpleItem[]>(
+        Array.from({length: 1000}).map((value, index) => ({
+          optionChildId: index + 1,
+          optionChildDesc: `Item ${index + 1}`
+        }))
+      )
+      .pipe(delay(1000))
+    }
+  };
+
   constructor(){
     console.log(this.x.getNumber());
   }
@@ -84,3 +102,5 @@ export interface OptionChildItem {
   optionChildId: number,
   optionChildDesc: string
 }
+
+export type OptionMulitpleItem = Pick<OptionChildItem, 'optionChildId' | 'optionChildDesc'>;
