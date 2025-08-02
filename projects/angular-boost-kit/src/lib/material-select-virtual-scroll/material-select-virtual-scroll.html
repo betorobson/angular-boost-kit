@@ -63,7 +63,10 @@
             >None</mat-option>
           }
           <mat-option
-            *cdkVirtualFor="let optionItem of options"
+            *cdkVirtualFor="
+              let optionItem of options;
+              templateCacheSize: 0;
+            "
             [value]="optionItem[config.optionItemId]"
           >
             <ng-container
@@ -74,9 +77,9 @@
         </cdk-virtual-scroll-viewport>
       </div>
     }
-    @if (itemSelected?.[0]) {
+    @if (hasValue) {
       <mat-option
-        [value]="itemSelected?.[0]?.[config.optionItemId]"
+        [value]="itemSelected[0][config.optionItemId]"
         class="option-workaround"
       >
       </mat-option>

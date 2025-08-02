@@ -75,6 +75,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
         this.options.push(...result);
         this.itemSelectBasedOnFormControlvalue();
         this.loading = false;
+        this.config.formControl.enable();
         loadSubscriber?.unsubscribe();
       }
     )
@@ -101,6 +102,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
       const allBaseOnFormControlsHasValue = this.allBaseOnFormControlsHasValue();
 
       this.config.formControl.setValue(null);
+      this.config.formControl.disable();
 
       if(allBaseOnFormControlsHasValue){
         this.load();
@@ -118,7 +120,6 @@ export class MaterialSelectVirtualScroll implements OnInit {
         }
       );
 
-
     }
   }
 
@@ -131,7 +132,8 @@ export class MaterialSelectVirtualScroll implements OnInit {
   private populateBasedOnValueChangesResult(){
     const allBaseOnFormControlsHasValue = this.allBaseOnFormControlsHasValue();
     this.config.formControl.setValue(null);
-    this.options.splice(0);
+    this.options = [];
+    this.config.formControl.disable();
     if(allBaseOnFormControlsHasValue){
       this.load();
     }
@@ -160,13 +162,15 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
   private setHasValue(){
     if(this.config.multiple){
-      this.hasValue = this.config.formControl.value
-      ||
-      Array.isArray(this.config.formControl.value)
+      this.hasValue = Array.isArray(this.config.formControl.value)
       &&
-      this.config.formControl.value.length;
+      !!this.config.formControl.value.length
+      &&
+      !!this.itemSelected.length;
     }else{
-      this.hasValue = !!this.config.formControl.value;
+      this.hasValue = !!this.config.formControl.value
+      &&
+      !!this.itemSelected.length;
     }
   }
 
