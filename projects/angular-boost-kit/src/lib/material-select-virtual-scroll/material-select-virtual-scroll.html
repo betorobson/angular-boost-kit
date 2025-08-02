@@ -68,6 +68,7 @@
               templateCacheSize: 0;
             "
             [value]="optionItem[config.optionItemId]"
+            (click)="optionSelect(optionItem)"
           >
             <ng-container
               [ngTemplateOutlet]="optionTemplate || defaultTemplate"

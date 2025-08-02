@@ -209,6 +209,25 @@ export class MaterialSelectVirtualScroll implements OnInit {
     this.config.formControl.setValue(null);
   }
 
+  multipleArrayValues: number[] = [];
+  protected optionSelect(optionItem: any){
+    if(this.config.multiple){
+      const optionId = optionItem[this.config.optionItemId];
+
+      const isOptionSelectedAtIndex = this.multipleArrayValues.indexOf(optionId);
+
+      if(isOptionSelectedAtIndex >= 0){
+        this.multipleArrayValues.splice(isOptionSelectedAtIndex, 1);
+      }else{
+        this.multipleArrayValues.push(optionId);
+      }
+
+      this.config.formControl.setValue(this.multipleArrayValues)
+    // }else{
+    //   this.config.formControl.setValue(optionItem[this.config.optionItemId]);
+    }
+  }
+
   protected openedChange(){
     this.openedChangeCDKVirtualScroll();
   }
