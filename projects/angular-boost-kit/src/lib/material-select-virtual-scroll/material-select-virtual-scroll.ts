@@ -11,6 +11,7 @@ import { MatInput } from '@angular/material/input';
 import { FilterData } from '../cdk/text-search';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 @Component({
   selector: 'lib-material-select-virtual-scroll',
@@ -140,6 +141,12 @@ export class MaterialSelectVirtualScroll implements OnInit {
   }
 
   private subscribeFromControl(){
+
+    if(this.config.multiple && Array.isArray(this.config.formControl.value)){
+      this.multipleArrayValues.splice(0);
+      this.multipleArrayValues.push(...this.config.formControl.value);
+    }
+
     // [todo] auto unsubscribe
     this.config.formControl.valueChanges.subscribe(() => {
 
@@ -180,8 +187,6 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
     if(formControlValue){
       if(this.config.multiple && Array.isArray(formControlValue)){
-        this.multipleArrayValues.splice(0);
-        this.multipleArrayValues.push(...formControlValue);
         this.itemSelect(
           this.options.filter(
             option => formControlValue.includes(option[this.config.optionItemId])
@@ -215,19 +220,23 @@ export class MaterialSelectVirtualScroll implements OnInit {
   multipleArrayValues: number[] = [];
   protected optionSelect(optionItem: any){
     if(this.config.multiple){
+
       const optionId = optionItem[this.config.optionItemId];
 
       const isOptionSelectedAtIndex = this.multipleArrayValues.indexOf(optionId);
 
-      if(isOptionSelectedAtIndex >= 0){
-        this.multipleArrayValues.splice(isOptionSelectedAtIndex, 1);
-      }else{
+      console.log(isOptionSelectedAtIndex < 0, optionId);
+
+      if(isOptionSelectedAtIndex < 0){
         this.multipleArrayValues.push(optionId);
+      }else{
+        this.multipleArrayValues.splice(isOptionSelectedAtIndex, 1);
       }
 
-      this.config.formControl.setValue(this.multipleArrayValues)
-    // }else{
-    //   this.config.formControl.setValue(optionItem[this.config.optionItemId]);
+      this.config.formControl.setValue(this.multipleArrayValues, {emitEvent: false});
+
+      this.itemSelectBasedOnFormControlvalue();
+
     }
   }
 
