@@ -193,21 +193,47 @@ export class MaterialSelectVirtualScroll implements OnInit {
           )
         )
       }else if(!this.config.multiple && !Array.isArray(formControlValue)){
-        this.itemSelect(
-          this.options.filter(
-            option => option[this.config.optionItemId] === formControlValue
+        if(this.config.compositeId){
+          this.itemSelect(
+            this.options.filter(
+              option => this.isOptionItemSameOfCompositeId(option, formControlValue)
+            )
           )
-        )
+        }else{
+          this.itemSelect(
+            this.options.filter(
+              option => option[this.config.optionItemId] === formControlValue
+            )
+          )
+        }
       }
     }else{
       this.itemSelect(null);
     }
   }
 
+  private isOptionItemSameOfCompositeId(optionItem: any, compositiIdValue: any){
+    return !Object.entries(compositiIdValue).some(([key, value]) => {
+      return optionItem[key] !== value
+    })
+  }
+
   itemSelect(items: any[]){
     this.itemSelected.splice(0);
     if(items && items.length){
       this.itemSelected.push(...items);
+    }
+  }
+
+  getItemValue(optionItem: any){
+    if(this.config.compositeId){
+      return Object.fromEntries(
+        this.config.compositeId.map(
+          key => [key, optionItem[key]]
+        )
+      )
+    }else{
+      return optionItem[this.config.optionItemId]
     }
   }
 
@@ -224,8 +250,6 @@ export class MaterialSelectVirtualScroll implements OnInit {
       const optionId = optionItem[this.config.optionItemId];
 
       const isOptionSelectedAtIndex = this.multipleArrayValues.indexOf(optionId);
-
-      console.log(isOptionSelectedAtIndex < 0, optionId);
 
       if(isOptionSelectedAtIndex < 0){
         this.multipleArrayValues.push(optionId);

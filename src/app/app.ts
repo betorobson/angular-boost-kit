@@ -88,6 +88,7 @@ export class App {
     replaceArrowByResetButton: true,
     optionItemId: 'key1',
     optionItemDescription: 'desc',
+    compositeId: ['key1', 'key2'],
     load: () => {
       return of<OptionCompositeIdExample[]>(
         (function(){

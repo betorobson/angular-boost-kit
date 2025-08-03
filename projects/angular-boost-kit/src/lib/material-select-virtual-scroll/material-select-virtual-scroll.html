@@ -67,7 +67,7 @@
               let optionItem of options;
               templateCacheSize: 0;
             "
-            [value]="optionItem[config.optionItemId]"
+            [value]="getItemValue(optionItem)"
             (click)="optionSelect(optionItem)"
           >
             <ng-container
@@ -80,7 +80,7 @@
     }
     @if (hasValue) {
       <mat-option
-        [value]="itemSelected[0][config.optionItemId]"
+        [value]="getItemValue(itemSelected[0])"
         class="option-workaround"
       >
       </mat-option>
