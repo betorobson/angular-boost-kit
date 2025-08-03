@@ -180,6 +180,8 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
     if(formControlValue){
       if(this.config.multiple && Array.isArray(formControlValue)){
+        this.multipleArrayValues.splice(0);
+        this.multipleArrayValues.push(...formControlValue);
         this.itemSelect(
           this.options.filter(
             option => formControlValue.includes(option[this.config.optionItemId])
@@ -207,6 +209,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
   reset($event: MouseEvent){
     $event.stopPropagation();
     this.config.formControl.setValue(null);
+    this.multipleArrayValues.splice(0);
   }
 
   multipleArrayValues: number[] = [];

@@ -66,7 +66,7 @@ export class App {
   };
 
   selectVirtualScrollMultipleConfig: MaterialSelectVirtualScrollConfig<OptionMulitpleItem> = {
-    formControl: new FormControl<number[]>(null),
+    formControl: new FormControl<number[]>([1,2,26]),
     multiple: true,
     replaceArrowByResetButton: true,
     optionItemId: 'optionChildId',
