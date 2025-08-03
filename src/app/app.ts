@@ -82,6 +82,35 @@ export class App {
     }
   };
 
+  selectVirtualScrollCompositeIdConfig: MaterialSelectVirtualScrollConfig<OptionCompositeIdExample> = {
+    formControl: new FormControl<any>(null),
+    // multiple: true,
+    replaceArrowByResetButton: true,
+    optionItemId: 'key1',
+    optionItemDescription: 'desc',
+    load: () => {
+      return of<OptionCompositeIdExample[]>(
+        (function(){
+          const r = [];
+          r.push(
+            ...Array.from({length: 1000}).map<OptionCompositeIdExample>((value, index) => ({
+              key1: 1,
+              key2: index + 1,
+              desc: `Item 1: ${index + 1}`
+            })),
+            ...Array.from({length: 1000}).map<OptionCompositeIdExample>((value, index) => ({
+              key1: 2,
+              key2: index + 1,
+              desc: `Item 2: ${index + 1}`
+            })),
+          );
+          return r;
+        })()
+      )
+      .pipe(delay(1000))
+    }
+  };
+
   constructor(){
     console.log(this.x.getNumber());
   }
@@ -104,3 +133,9 @@ export interface OptionChildItem {
 }
 
 export type OptionMulitpleItem = Pick<OptionChildItem, 'optionChildId' | 'optionChildDesc'>;
+
+export interface OptionCompositeIdExample {
+  key1: number;
+  key2: number;
+  desc: string;
+}

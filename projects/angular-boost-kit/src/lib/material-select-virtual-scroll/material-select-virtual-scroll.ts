@@ -14,7 +14,7 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatOptionSelectionChange } from '@angular/material/core';
 
 @Component({
-  selector: 'lib-material-select-virtual-scroll',
+  selector: 'angular-boost-kit-material-select-virtual-scroll',
   imports: [
     CommonModule,
     FormsModule,

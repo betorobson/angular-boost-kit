@@ -4,7 +4,7 @@
 
 <hr />
 
-<lib-material-select-virtual-scroll
+<angular-boost-kit-material-select-virtual-scroll
   #selectVirtualScrollParent
   [config]="selectVirtualScrollStatesConfig"
   [optionTemplate]="optionTemplate"
@@ -27,9 +27,9 @@
       {{itemSelected[selectVirtualScrollStatesConfig.optionItemDescription]}}
     }
   </ng-template>
-</lib-material-select-virtual-scroll>
+</angular-boost-kit-material-select-virtual-scroll>
 
-<lib-material-select-virtual-scroll
+<angular-boost-kit-material-select-virtual-scroll
   #selectVirtualScrollParent
   [config]="selectVirtualScrollCitiesConfig"
   [optionTemplate]="citiesOptionTemplate"
@@ -41,19 +41,21 @@
       {{itemSelected[selectVirtualScrollCitiesConfig.optionItemDescription]}}
     }
   </ng-template>
-</lib-material-select-virtual-scroll>
+</angular-boost-kit-material-select-virtual-scroll>
 
-<lib-material-select-virtual-scroll
+<angular-boost-kit-material-select-virtual-scroll
   [config]="selectVirtualChildScrollConfig"
 >
-</lib-material-select-virtual-scroll>
+</angular-boost-kit-material-select-virtual-scroll>
 
 <hr />
 
-<lib-material-select-virtual-scroll
-  [config]="selectVirtualScrollMultipleConfig"
+<angular-boost-kit-material-select-virtual-scroll
+  [config]="selectVirtualScrollCompositeIdConfig"
 >
-</lib-material-select-virtual-scroll>
+</angular-boost-kit-material-select-virtual-scroll>
+
+{{selectVirtualScrollCompositeIdConfig.formControl.value | json}}
 
 <hr />
 
