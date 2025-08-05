@@ -1,10 +1,10 @@
 <ng-template #defaultTemplate let-itemSelected="itemSelected">
   @if(config.multiple && itemSelected.length){
     @for(item of itemSelected; track $index){
-      {{item[config.optionItemDescription]}},
+      {{item.data?.[config.optionItemDescription]}},
     }
   }@else if(itemSelected){
-    {{itemSelected[config.optionItemDescription]}}
+    {{itemSelected.data?.[config.optionItemDescription]}}
   }
 </ng-template>
 

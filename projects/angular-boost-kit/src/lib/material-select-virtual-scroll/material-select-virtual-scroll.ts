@@ -55,8 +55,8 @@ export class MaterialSelectVirtualScroll implements OnInit {
 	@ViewChild(CdkVirtualScrollViewport, { static: false })
 		private cdkVirtualScrollViewPort: CdkVirtualScrollViewport;
 
-  protected options: Array<any> = [];
-  private rawOptions: Array<any> = [];
+  protected options: Array<OptionMetaData> = [];
+  private rawOptions: Array<OptionMetaData> = [];
 
   ngOnInit(): void {
     if(!this.config.populateBasedOnFormControls){
@@ -71,9 +71,20 @@ export class MaterialSelectVirtualScroll implements OnInit {
     this.loading = true;
     const loadSubscriber = this.config?.load().subscribe(
       result => {
+        const optionMetaData: OptionMetaData[] = result.map<OptionMetaData>(item => {
+          return {
+            id: Object.fromEntries(
+              (this.config.compositeId || [this.config.optionItemId]).map(
+                key => [key, item[key]]
+              )
+            ),
+            data: item
+          }
+        });
         this.rawOptions.splice(0);
-        this.rawOptions.push(...result);
-        this.options.push(...result);
+        this.options.splice(0);
+        this.rawOptions.push(...optionMetaData);
+        this.searchPopulate('');
         this.itemSelectBasedOnFormControlvalue();
         this.loading = false;
         this.config.formControl.enable();
@@ -88,13 +99,20 @@ export class MaterialSelectVirtualScroll implements OnInit {
       debounceTime(200),
       distinctUntilChanged()
     )
-    .subscribe(keyword => {
+    .subscribe(keyword => this.searchPopulate(keyword));
+  }
+
+  private searchPopulate(keyword: string){
+    if(!keyword){
+      this.options.push(...this.rawOptions);
+    }else{
+      // [todo] search into metaData.data
       this.options = FilterData(
         keyword,
         this.rawOptions,
         this.config.optionItemDescription.toString()
       )
-    });
+    }
   }
 
   private initPopulateBasedOn(){
@@ -189,7 +207,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
       if(this.config.multiple && Array.isArray(formControlValue)){
         this.itemSelect(
           this.options.filter(
-            option => formControlValue.includes(option[this.config.optionItemId])
+            option => formControlValue.includes(option.id[this.config.optionItemId])
           )
         )
       }else if(!this.config.multiple && !Array.isArray(formControlValue)){
@@ -202,7 +220,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
         }else{
           this.itemSelect(
             this.options.filter(
-              option => option[this.config.optionItemId] === formControlValue
+              option => option.id[this.config.optionItemId] === formControlValue
             )
           )
         }
@@ -233,7 +251,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
         )
       )
     }else{
-      return optionItem[this.config.optionItemId]
+      return optionItem.id[this.config.optionItemId]
     }
   }
 
@@ -277,11 +295,16 @@ export class MaterialSelectVirtualScroll implements OnInit {
       this.cdkVirtualScrollViewPort.checkViewportSize();
       if(this.itemSelected?.[0]){
         const index = this.options.findIndex(
-          option => option[this.config.optionItemId] === this.itemSelected[0][this.config.optionItemId]
+          option => option.id[this.config.optionItemId] === this.itemSelected[0][this.config.optionItemId]
         )
         this.cdkVirtualScrollViewPort.scrollToIndex(index);
       }
     }
   }
 
+}
+
+interface OptionMetaData<T = any> {
+  id: Partial<T>;
+  data: T;
 }

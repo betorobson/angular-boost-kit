@@ -82,7 +82,9 @@ export class App {
     }
   };
 
-  selectVirtualScrollCompositeIdConfig: MaterialSelectVirtualScrollConfig<OptionCompositeIdExample> = {
+  selectVirtualScrollCompositeIdConfig: MaterialSelectVirtualScrollConfig<
+    OptionCompositeIdExample
+  > = {
     formControl: new FormControl<any>(null),
     // multiple: true,
     replaceArrowByResetButton: true,
