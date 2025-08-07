@@ -10,7 +10,6 @@ export interface MaterialSelectVirtualScrollConfig<
   replaceArrowByResetButton?: boolean;
   load: () => Observable<Array<T>>;
   populateBasedOnFormControls?: FormControl[];
-  optionItemId: Extract<keyof T, string>;
   optionItemDescription: keyof T;
-  compositeId?: Array<keyof T>;
+  compositeId?: Array<Extract<keyof T, string>>;
 }

@@ -23,7 +23,7 @@ export class App {
 
   selectVirtualScrollStatesConfig: MaterialSelectVirtualScrollConfig<APIStatesItem> = {
     formControl: new FormControl<string>(null),
-    optionItemId: 'stateId',
+    compositeId: ['stateId'],
     optionItemDescription: 'stateName',
     replaceArrowByResetButton: true,
     load: () => this.apiStatesCitiesNeighborhoods.getStates()
@@ -31,7 +31,7 @@ export class App {
 
   selectVirtualScrollCitiesConfig: MaterialSelectVirtualScrollConfig<APICitiesItem> = {
     formControl: new FormControl<number>(null),
-    optionItemId: 'cityId',
+    compositeId: ['cityId'],
     optionItemDescription: 'cityName',
     populateBasedOnFormControls: [
       this.selectVirtualScrollStatesConfig.formControl
@@ -43,7 +43,7 @@ export class App {
 
   selectVirtualChildScrollConfig: MaterialSelectVirtualScrollConfig<OptionChildItem> = {
     formControl: new FormControl<number>(null),
-    optionItemId: 'optionChildId',
+    compositeId: ['optionChildId'],
     optionItemDescription: 'optionChildDesc',
     populateBasedOnFormControls: [
       this.selectVirtualScrollStatesConfig.formControl,
@@ -69,7 +69,7 @@ export class App {
     formControl: new FormControl<number[]>([1,2,26]),
     multiple: true,
     replaceArrowByResetButton: true,
-    optionItemId: 'optionChildId',
+    compositeId: ['optionChildId'],
     optionItemDescription: 'optionChildDesc',
     load: () => {
       return of<OptionMulitpleItem[]>(
@@ -88,7 +88,6 @@ export class App {
     formControl: new FormControl<any>(null),
     // multiple: true,
     replaceArrowByResetButton: true,
-    optionItemId: 'key1',
     optionItemDescription: 'desc',
     compositeId: ['key1', 'key2'],
     load: () => {

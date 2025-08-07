@@ -44,6 +44,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
   protected formControlSearch = new FormControl<string>('');
 
   protected hasValue = false;
+  protected isCompositeId = false;
 
   @Input({required: true}) config: MaterialSelectVirtualScrollConfig;
 
@@ -59,6 +60,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
   private rawOptions: Array<OptionMetaData> = [];
 
   ngOnInit(): void {
+    this.isCompositeId = this.config.compositeId.length > 1;
     if(!this.config.populateBasedOnFormControls){
       this.load();
     }
@@ -71,19 +73,9 @@ export class MaterialSelectVirtualScroll implements OnInit {
     this.loading = true;
     const loadSubscriber = this.config?.load().subscribe(
       result => {
-        const optionMetaData: OptionMetaData[] = result.map<OptionMetaData>(item => {
-          return {
-            id: Object.fromEntries(
-              (this.config.compositeId || [this.config.optionItemId]).map(
-                key => [key, item[key]]
-              )
-            ),
-            data: item
-          }
-        });
         this.rawOptions.splice(0);
         this.options.splice(0);
-        this.rawOptions.push(...optionMetaData);
+        this.mapLoadResultIntoORawOptions(result);
         this.searchPopulate('');
         this.itemSelectBasedOnFormControlvalue();
         this.loading = false;
@@ -91,6 +83,23 @@ export class MaterialSelectVirtualScroll implements OnInit {
         loadSubscriber?.unsubscribe();
       }
     )
+  }
+
+  private mapLoadResultIntoORawOptions(result: any[]){
+
+    const optionMetaData: OptionMetaData[] = result.map<OptionMetaData>(item => {
+      return {
+        id: Object.fromEntries(
+          (this.config.compositeId).map(
+            key => [key, item[key]]
+          )
+        ),
+        data: item
+      }
+    });
+
+    this.rawOptions.push(...optionMetaData);
+
   }
 
   private search(){
@@ -207,7 +216,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
       if(this.config.multiple && Array.isArray(formControlValue)){
         this.itemSelect(
           this.options.filter(
-            option => formControlValue.includes(option.id[this.config.optionItemId])
+            option => formControlValue.includes(option.id[this.config.compositeId[0]])
           )
         )
       }else if(!this.config.multiple && !Array.isArray(formControlValue)){
@@ -220,7 +229,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
         }else{
           this.itemSelect(
             this.options.filter(
-              option => option.id[this.config.optionItemId] === formControlValue
+              option => option.id[this.config.compositeId[0]] === formControlValue
             )
           )
         }
@@ -251,7 +260,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
         )
       )
     }else{
-      return optionItem.id[this.config.optionItemId]
+      return optionItem.id[this.config.compositeId[0]]
     }
   }
 
@@ -265,7 +274,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
   protected optionSelect(optionItem: any){
     if(this.config.multiple){
 
-      const optionId = optionItem[this.config.optionItemId];
+      const optionId = optionItem[this.config.compositeId[0]];
 
       const isOptionSelectedAtIndex = this.multipleArrayValues.indexOf(optionId);
 
@@ -295,7 +304,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
       this.cdkVirtualScrollViewPort.checkViewportSize();
       if(this.itemSelected?.[0]){
         const index = this.options.findIndex(
-          option => option.id[this.config.optionItemId] === this.itemSelected[0][this.config.optionItemId]
+          option => option.id[this.config.compositeId[0]] === this.itemSelected[0][this.config.compositeId[0]]
         )
         this.cdkVirtualScrollViewPort.scrollToIndex(index);
       }
