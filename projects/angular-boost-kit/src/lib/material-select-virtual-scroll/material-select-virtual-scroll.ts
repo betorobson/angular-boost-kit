@@ -239,10 +239,14 @@ export class MaterialSelectVirtualScroll implements OnInit {
     }
   }
 
-  private isOptionItemSameOfCompositeId(optionItem: any, compositiIdValue: any){
-    return !Object.entries(compositiIdValue).some(([key, value]) => {
-      return optionItem[key] !== value
-    })
+  private isOptionItemSameOfCompositeId(optionItem: OptionMetaData, compositiIdValue: any){
+    if(this.config.compositeId.length === 1){
+      return optionItem.id[this.config.compositeId[0]] === compositiIdValue;
+    }else{
+      return !Object.entries(compositiIdValue as Partial<OptionMetaData['data']>).some(([key, value]) => {
+        return optionItem.id[key] !== value
+      })
+    }
   }
 
   itemSelect(items: any[]){
@@ -252,16 +256,21 @@ export class MaterialSelectVirtualScroll implements OnInit {
     }
   }
 
-  getItemValue(optionItem: any){
-    if(this.config.compositeId){
-      return Object.fromEntries(
-        this.config.compositeId.map(
-          key => [key, optionItem[key]]
-        )
-      )
+  getItemValue(optionItem: OptionMetaData){
+    if(this.config.compositeId.length === 1){
+      return optionItem.id[this.config.compositeId[0]];
     }else{
-      return optionItem.id[this.config.compositeId[0]]
+      return optionItem.id;
     }
+    // if(this.config.compositeId){
+    //   return Object.fromEntries(
+    //     this.config.compositeId.map(
+    //       key => [key, optionItem[key]]
+    //     )
+    //   )
+    // }else{
+    //   return optionItem.id[this.config.compositeId[0]]
+    // }
   }
 
   reset($event: MouseEvent){
@@ -271,10 +280,11 @@ export class MaterialSelectVirtualScroll implements OnInit {
   }
 
   multipleArrayValues: number[] = [];
-  protected optionSelect(optionItem: any){
+  protected optionSelect(optionItem: OptionMetaData){
+    // [todo] multiple of compositeId having two or more keys
     if(this.config.multiple){
 
-      const optionId = optionItem[this.config.compositeId[0]];
+      const optionId = optionItem.id[this.config.compositeId[0]];
 
       const isOptionSelectedAtIndex = this.multipleArrayValues.indexOf(optionId);
 

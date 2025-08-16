@@ -15,16 +15,16 @@
       <div class="trigger-template">
         <mat-icon>radio_button_checked</mat-icon>
         <span>
-          [{{itemSelected[selectVirtualScrollStatesConfig.optionItemId]}}]:
-          {{itemSelected[selectVirtualScrollStatesConfig.optionItemDescription]}}
+          [{{itemSelected.data[selectVirtualScrollStatesConfig.compositeId[0]]}}]:
+          {{itemSelected.data[selectVirtualScrollStatesConfig.optionItemDescription]}}
         </span>
       </div>
     }
   </ng-template>
   <ng-template #optionTemplate let-itemSelected="itemSelected">
     @if(itemSelected){
-      [{{itemSelected[selectVirtualScrollStatesConfig.optionItemId]}}]:
-      {{itemSelected[selectVirtualScrollStatesConfig.optionItemDescription]}}
+      [{{itemSelected.data[selectVirtualScrollStatesConfig.compositeId[0]]}}]:
+      {{itemSelected.data[selectVirtualScrollStatesConfig.optionItemDescription]}}
     }
   </ng-template>
 </angular-boost-kit-material-select-virtual-scroll>
@@ -36,9 +36,9 @@
 >
   <ng-template #citiesOptionTemplate let-itemSelected="itemSelected">
     @if(itemSelected){
-      {{itemSelected.stateId}}
+      {{itemSelected.data.stateId}}
        -
-      {{itemSelected[selectVirtualScrollCitiesConfig.optionItemDescription]}}
+      {{itemSelected.data[selectVirtualScrollCitiesConfig.optionItemDescription]}}
     }
   </ng-template>
 </angular-boost-kit-material-select-virtual-scroll>

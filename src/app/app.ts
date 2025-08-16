@@ -85,6 +85,7 @@ export class App {
   selectVirtualScrollCompositeIdConfig: MaterialSelectVirtualScrollConfig<
     OptionCompositeIdExample
   > = {
+    // [todo] FormControl Type of compositeId
     formControl: new FormControl<any>(null),
     // multiple: true,
     replaceArrowByResetButton: true,
@@ -97,12 +98,12 @@ export class App {
           r.push(
             ...Array.from({length: 1000}).map<OptionCompositeIdExample>((value, index) => ({
               key1: 1,
-              key2: index + 1,
+              key2: parseInt(`1${index}`),
               desc: `Item 1: ${index + 1}`
             })),
             ...Array.from({length: 1000}).map<OptionCompositeIdExample>((value, index) => ({
               key1: 2,
-              key2: index + 1,
+              key2: parseInt(`2${index}`),
               desc: `Item 2: ${index + 1}`
             })),
           );

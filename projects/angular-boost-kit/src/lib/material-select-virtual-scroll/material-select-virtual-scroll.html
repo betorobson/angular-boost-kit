@@ -1,7 +1,7 @@
 <ng-template #defaultTemplate let-itemSelected="itemSelected">
   @if(config.multiple && itemSelected.length){
     @for(item of itemSelected; track $index){
-      {{item.data?.[config.optionItemDescription]}},
+      {{item.data[config.optionItemDescription]}},
     }
   }@else if(itemSelected){
     {{itemSelected.data?.[config.optionItemDescription]}}
@@ -72,7 +72,9 @@
           >
             <ng-container
               [ngTemplateOutlet]="optionTemplate || defaultTemplate"
-              [ngTemplateOutletContext]="{ itemSelected: optionItem }"
+              [ngTemplateOutletContext]="{
+                itemSelected: optionItem
+              }"
             ></ng-container>
           </mat-option>
         </cdk-virtual-scroll-viewport>
