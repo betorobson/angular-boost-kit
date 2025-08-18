@@ -10,21 +10,21 @@
   [optionTemplate]="optionTemplate"
   [triggerTemplate]="triggerTemplate"
 >
-  <ng-template #triggerTemplate let-itemSelected="itemSelected">
-    @if(itemSelected){
+  <ng-template #triggerTemplate [templateType]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
+    @if(templateData){
       <div class="trigger-template">
         <mat-icon>radio_button_checked</mat-icon>
         <span>
-          [{{itemSelected.data[selectVirtualScrollStatesConfig.compositeId[0]]}}]:
-          {{itemSelected.data[selectVirtualScrollStatesConfig.optionItemDescription]}}
+          [{{templateData.data[selectVirtualScrollStatesConfig.compositeId[0]]}}]:
+          {{templateData.data[selectVirtualScrollStatesConfig.optionItemDescription]}}
         </span>
       </div>
     }
   </ng-template>
-  <ng-template #optionTemplate let-itemSelected="itemSelected">
-    @if(itemSelected){
-      [{{itemSelected.data[selectVirtualScrollStatesConfig.compositeId[0]]}}]:
-      {{itemSelected.data[selectVirtualScrollStatesConfig.optionItemDescription]}}
+  <ng-template #optionTemplate [templateType]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
+    @if(templateData){
+      [{{templateData.data[selectVirtualScrollStatesConfig.compositeId[0]]}}]:
+      {{templateData.data[selectVirtualScrollStatesConfig.optionItemDescription]}}
     }
   </ng-template>
 </angular-boost-kit-material-select-virtual-scroll>
@@ -32,15 +32,7 @@
 <angular-boost-kit-material-select-virtual-scroll
   #selectVirtualScrollParent
   [config]="selectVirtualScrollCitiesConfig"
-  [optionTemplate]="citiesOptionTemplate"
 >
-  <ng-template #citiesOptionTemplate let-itemSelected="itemSelected">
-    @if(itemSelected){
-      {{itemSelected.data.stateId}}
-       -
-      {{itemSelected.data[selectVirtualScrollCitiesConfig.optionItemDescription]}}
-    }
-  </ng-template>
 </angular-boost-kit-material-select-virtual-scroll>
 
 <angular-boost-kit-material-select-virtual-scroll

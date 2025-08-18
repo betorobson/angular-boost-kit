@@ -1,10 +1,10 @@
-<ng-template #defaultTemplate let-itemSelected="itemSelected">
-  @if(config.multiple && itemSelected.length){
-    @for(item of itemSelected; track $index){
-      {{item.data[config.optionItemDescription]}},
-    }
-  }@else if(itemSelected){
-    {{itemSelected.data?.[config.optionItemDescription]}}
+<ng-template #defaultTemplateSingle [templateType]="templateDataOptionMeta" let-templateDataOption="templateData">
+  {{templateDataOption?.data[config.optionItemDescription]}}
+</ng-template>
+
+<ng-template #defaultTemplateMultiple [templateType]="templateDataMultipleOptionMeta" let-templateDataOption="templateData">
+  @for(item of templateDataOption; track $index){
+    {{item.data[config.optionItemDescription]}},
   }
 </ng-template>
 
@@ -29,14 +29,21 @@
     [multiple]="config.multiple"
   >
     <mat-select-trigger>
-      <ng-container
-        [ngTemplateOutlet]="triggerTemplate || optionTemplate || defaultTemplate"
-        [ngTemplateOutletContext]="{
-          itemSelected: config.multiple
-            ? itemSelected
-            : itemSelected?.[0]
-         }"
-      ></ng-container>
+      @if(config.multiple){
+        <ng-container
+          [ngTemplateOutlet]="triggerTemplate || optionTemplate || defaultTemplateMultiple"
+          [ngTemplateOutletContext]="{
+            templateData: itemSelected
+          }"
+        ></ng-container>
+      }@else{
+        <ng-container
+          [ngTemplateOutlet]="triggerTemplate || optionTemplate || defaultTemplateSingle"
+          [ngTemplateOutletContext]="{
+            templateData: itemSelected?.[0]
+          }"
+        ></ng-container>
+      }
     </mat-select-trigger>
     @if(!loading){
       <div class="container-panel">
@@ -71,9 +78,9 @@
             (click)="optionSelect(optionItem)"
           >
             <ng-container
-              [ngTemplateOutlet]="optionTemplate || defaultTemplate"
+              [ngTemplateOutlet]="optionTemplate || defaultTemplateSingle"
               [ngTemplateOutletContext]="{
-                itemSelected: optionItem
+                templateData: optionItem
               }"
             ></ng-container>
           </mat-option>

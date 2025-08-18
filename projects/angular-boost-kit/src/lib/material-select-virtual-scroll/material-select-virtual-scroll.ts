@@ -4,7 +4,7 @@ import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrollin
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 import { MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger, MatSuffix } from '@angular/material/select';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialSelectVirtualScrollConfig } from './config.interface';
+import { MaterialSelectVirtualScrollConfig, OptionMetaData } from './config.interface';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { debounceTime, delay, distinctUntilChanged, merge, of, switchMap } from 'rxjs';
 import { MatInput } from '@angular/material/input';
@@ -12,6 +12,8 @@ import { FilterData } from '../cdk/text-search';
 import { MatIcon } from '@angular/material/icon';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { NgTemplateTypeDirective } from '../cdk/public-api';
+import { NgTemplateTypeModel } from '../cdk/ng-template-type/ng-template-type.interface';
 
 @Component({
   selector: 'angular-boost-kit-material-select-virtual-scroll',
@@ -32,11 +34,15 @@ import { MatOptionSelectionChange } from '@angular/material/core';
     MatIconButton,
     MatIcon,
     MatSuffix,
+    NgTemplateTypeDirective
   ],
   templateUrl: './material-select-virtual-scroll.html',
   styleUrl: './material-select-virtual-scroll.css'
 })
 export class MaterialSelectVirtualScroll implements OnInit {
+
+  protected templateDataOptionMeta: OptionMetaData;
+  protected templateDataMultipleOptionMeta: OptionMetaData[];
 
   protected itemSelected: any[] = [];
   protected loading = false;
@@ -321,9 +327,4 @@ export class MaterialSelectVirtualScroll implements OnInit {
     }
   }
 
-}
-
-interface OptionMetaData<T = any> {
-  id: Partial<T>;
-  data: T;
 }
