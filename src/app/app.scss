@@ -1,4 +1,9 @@
-angular-boost-kit-material-select-virtual-scroll {
+:host {
+  display: block;
+  padding: 16px;
+}
+
+boostkit-material-select-virtual-scroll {
   max-width: 300px;
 }
 

@@ -3,13 +3,13 @@
 
 <hr />
 
-<angular-boost-kit-material-select-virtual-scroll
+<boostkit-material-select-virtual-scroll
   #selectVirtualScrollParent
   [config]="selectVirtualScrollStatesConfig"
   [optionTemplate]="optionTemplate"
   [triggerTemplate]="triggerTemplate"
 >
-  <ng-template #triggerTemplate [boostkit-template-type]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
+  <ng-template #triggerTemplate [cdk-boostkit-template-type]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
     @if(templateData){
       <div class="trigger-template">
         <mat-icon>radio_button_checked</mat-icon>
@@ -20,38 +20,38 @@
       </div>
     }
   </ng-template>
-  <ng-template #optionTemplate [boostkit-template-type]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
+  <ng-template #optionTemplate [cdk-boostkit-template-type]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
     @if(templateData){
       [{{templateData.data[selectVirtualScrollStatesConfig.compositeId[0]]}}]:
       {{templateData.data[selectVirtualScrollStatesConfig.optionItemDescription]}}
     }
   </ng-template>
-</angular-boost-kit-material-select-virtual-scroll>
+</boostkit-material-select-virtual-scroll>
 
-<angular-boost-kit-material-select-virtual-scroll
+<boostkit-material-select-virtual-scroll
   #selectVirtualScrollParent
   [config]="selectVirtualScrollCitiesConfig"
 >
-</angular-boost-kit-material-select-virtual-scroll>
+</boostkit-material-select-virtual-scroll>
 
-<angular-boost-kit-material-select-virtual-scroll
+<boostkit-material-select-virtual-scroll
   [config]="selectVirtualChildScrollConfig"
 >
-</angular-boost-kit-material-select-virtual-scroll>
+</boostkit-material-select-virtual-scroll>
 
 <hr />
 
-<angular-boost-kit-material-select-virtual-scroll
+<boostkit-material-select-virtual-scroll
   [config]="selectVirtualScrollMultipleConfig"
 >
-</angular-boost-kit-material-select-virtual-scroll>
+</boostkit-material-select-virtual-scroll>
 
 <hr />
 
-<angular-boost-kit-material-select-virtual-scroll
+<boostkit-material-select-virtual-scroll
   [config]="selectVirtualScrollCompositeIdConfig"
 >
-</angular-boost-kit-material-select-virtual-scroll>
+</boostkit-material-select-virtual-scroll>
 
 {{selectVirtualScrollCompositeIdConfig.formControl.value | json}}
 
