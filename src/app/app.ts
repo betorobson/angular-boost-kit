@@ -2,7 +2,7 @@ import { Component, inject, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
-import { FancyButton, MaterialSelectVirtualScroll, MaterialSelectVirtualScrollConfig, NgTemplateTypeDirective, TesteClass,  } from 'angular-boost-kit';
+import { CdkBoostKitTemplateType, MaterialSelectVirtualScroll, MaterialSelectVirtualScrollConfig  } from 'angular-boost-kit';
 import { delay, of } from 'rxjs';
 import { APICitiesItem, APIStatesCitiesNeighborhoods, APIStatesItem } from './api-services/states-cities-neighborhoods';
 import { CommonModule } from '@angular/common';
@@ -12,10 +12,9 @@ import { CommonModule } from '@angular/common';
   imports: [
     RouterOutlet,
     CommonModule,
-    FancyButton,
     MaterialSelectVirtualScroll,
-    NgTemplateTypeDirective,
-    MatIcon
+    MatIcon,
+    CdkBoostKitTemplateType
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
@@ -25,8 +24,6 @@ export class App {
   protected title = 'angular-boot-kit';
 
   private apiStatesCitiesNeighborhoods = inject(APIStatesCitiesNeighborhoods);
-
-  x = new TesteClass();
 
   selectVirtualScrollStatesConfig: MaterialSelectVirtualScrollConfig<APIStatesItem> = {
     formControl: new FormControl<string>(null),
@@ -122,7 +119,7 @@ export class App {
   };
 
   constructor(){
-    console.log(this.x.getNumber());
+
   }
 
   protected setSelectVirtualScrollFormControlValue(id: number){

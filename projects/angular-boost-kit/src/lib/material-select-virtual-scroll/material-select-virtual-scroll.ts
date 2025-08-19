@@ -8,12 +8,11 @@ import { MaterialSelectVirtualScrollConfig, OptionMetaData } from './config.inte
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { debounceTime, delay, distinctUntilChanged, merge, of, switchMap } from 'rxjs';
 import { MatInput } from '@angular/material/input';
-import { FilterData } from '../cdk/text-search';
+import { FilterData } from '../cdk/helpers/text-search';
 import { MatIcon } from '@angular/material/icon';
-import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIconButton } from '@angular/material/button';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { NgTemplateTypeDirective } from '../cdk/public-api';
-import { NgTemplateTypeModel } from '../cdk/ng-template-type/ng-template-type.interface';
+import { CdkBoostKitTemplateType } from '../cdk/public-api';
 
 @Component({
   selector: 'angular-boost-kit-material-select-virtual-scroll',
@@ -30,11 +29,10 @@ import { NgTemplateTypeModel } from '../cdk/ng-template-type/ng-template-type.in
     MatSelectTrigger,
     MatOption,
     MatProgressBar,
-    MatButton,
     MatIconButton,
     MatIcon,
     MatSuffix,
-    NgTemplateTypeDirective
+    CdkBoostKitTemplateType
   ],
   templateUrl: './material-select-virtual-scroll.html',
   styleUrl: './material-select-virtual-scroll.css'

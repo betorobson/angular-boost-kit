@@ -1,6 +1,5 @@
 
-<h1 class="teste2">Hello, angular-boost-kit</h1>
-<lib-fancy-button class="teste"></lib-fancy-button>
+<!-- <h1 class="teste2">Hello, angular-boost-kit</h1> -->
 
 <hr />
 
@@ -10,7 +9,7 @@
   [optionTemplate]="optionTemplate"
   [triggerTemplate]="triggerTemplate"
 >
-  <ng-template #triggerTemplate [templateType]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
+  <ng-template #triggerTemplate [boostkit-template-type]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
     @if(templateData){
       <div class="trigger-template">
         <mat-icon>radio_button_checked</mat-icon>
@@ -21,7 +20,7 @@
       </div>
     }
   </ng-template>
-  <ng-template #optionTemplate [templateType]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
+  <ng-template #optionTemplate [boostkit-template-type]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
     @if(templateData){
       [{{templateData.data[selectVirtualScrollStatesConfig.compositeId[0]]}}]:
       {{templateData.data[selectVirtualScrollStatesConfig.optionItemDescription]}}
