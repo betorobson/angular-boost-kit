@@ -218,13 +218,34 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
     if(formControlValue){
       if(this.config.multiple && Array.isArray(formControlValue)){
-        this.itemSelect(
-          this.options.filter(
-            option => formControlValue.find(
-              formControlvalueItem => JSON.stringify(formControlvalueItem) === JSON.stringify(option.id)
+        if(this.config.compositeId.length === 1){
+          this.itemSelect(
+            this.options.filter(
+              option => formControlValue.includes(option.id[this.config.compositeId[0]])
             )
+          );
+        }else{
+
+          const arrayOfvalues = this.options.filter(
+            option => formControlValue.find(
+              formControlvalueItem => {
+                return JSON.stringify(formControlvalueItem) === JSON.stringify(option.id);
+              }
+            )
+          );
+
+          this.config.formControl.setValue(
+            arrayOfvalues.map(
+              item => item.id
+            ),
+            {
+              emitEvent: false
+            }
           )
-        )
+
+          this.itemSelect(arrayOfvalues);
+
+        }
       }else if(!this.config.multiple && !Array.isArray(formControlValue)){
         if(this.config.compositeId){
           this.itemSelect(
