@@ -220,7 +220,9 @@ export class MaterialSelectVirtualScroll implements OnInit {
       if(this.config.multiple && Array.isArray(formControlValue)){
         this.itemSelect(
           this.options.filter(
-            option => formControlValue.includes(option.id[this.config.compositeId[0]])
+            option => formControlValue.find(
+              formControlvalueItem => JSON.stringify(formControlvalueItem) === JSON.stringify(option.id)
+            )
           )
         )
       }else if(!this.config.multiple && !Array.isArray(formControlValue)){
@@ -288,9 +290,28 @@ export class MaterialSelectVirtualScroll implements OnInit {
     // [todo] multiple of compositeId having two or more keys
     if(this.config.multiple){
 
-      const optionId = optionItem.id[this.config.compositeId[0]];
+      let optionId;
+      let isOptionSelectedAtIndex = -1;
 
-      const isOptionSelectedAtIndex = this.multipleArrayValues.indexOf(optionId);
+      if(this.config.compositeId.length > 1){
+
+        optionId = optionItem.id;
+
+        const optionItemIdValues = JSON.stringify(optionItem.id);
+
+        isOptionSelectedAtIndex = this.multipleArrayValues.findIndex(
+          value => {
+            return JSON.stringify(value) === optionItemIdValues
+          }
+        )
+
+      }else{
+
+        optionId = optionItem.id[this.config.compositeId[0]];
+
+        isOptionSelectedAtIndex = this.multipleArrayValues.indexOf(optionId);
+
+      }
 
       if(isOptionSelectedAtIndex < 0){
         this.multipleArrayValues.push(optionId);
