@@ -1,5 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { CdkBoostKitTemplateType, MaterialSelectVirtualScroll, MaterialSelectVirtualScrollConfig  } from 'angular-boost-kit';
@@ -86,6 +86,11 @@ export class App {
     }
   };
 
+  formGroupComposite = new FormGroup({
+    key1: new FormControl<number>(null),
+    key2: new FormControl<number>(null),
+  });
+
   selectVirtualScrollCompositeIdConfig: MaterialSelectVirtualScrollConfig<
     OptionCompositeIdExample
   > = {
@@ -94,6 +99,7 @@ export class App {
     // multiple: true,
     replaceArrowByResetButton: true,
     optionItemDescription: 'desc',
+    compositeIdPopulateFormGroup: this.formGroupComposite,
     compositeId: ['key1', 'key2'],
     load: () => {
       return of<OptionCompositeIdExample[]>(

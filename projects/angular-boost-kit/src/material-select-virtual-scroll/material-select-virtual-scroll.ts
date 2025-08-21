@@ -281,6 +281,31 @@ export class MaterialSelectVirtualScroll implements OnInit {
     if(items && items.length){
       this.itemSelected.push(...items);
     }
+    this.compositeIdPopulateFormGroup();
+  }
+
+  private compositeIdPopulateFormGroup(){
+
+    if(!this.config.compositeIdPopulateFormGroup){
+      return;
+    }
+
+    if(this.config.multiple){
+      // [todo]
+    }else{
+      if(this.itemSelected.length){
+        this.config.compositeIdPopulateFormGroup.patchValue(this.itemSelected[0].id);
+      }else{
+        this.config.compositeIdPopulateFormGroup.patchValue(
+          Object.fromEntries(
+            this.config.compositeId.map<[string, null]>(
+              key => [key, null]
+            )
+          )
+        );
+      }
+    }
+
   }
 
   getItemValue(optionItem: OptionMetaData){
