@@ -172,7 +172,7 @@ export interface OptionItem {
 export interface OptionChildItem {
   optionParentId: string,
   optionChildId: number,
-  optionChildDesc: string
+  optionChildDesc: string,
 }
 
 export type OptionMulitpleItem = Pick<OptionChildItem, 'optionChildId' | 'optionChildDesc'>;

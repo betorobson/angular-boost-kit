@@ -1,6 +1,10 @@
 import { FormControl, FormGroup } from "@angular/forms";
 import { Observable } from "rxjs";
 
+type StringOrNumberProps<T> = Partial<{
+  [K in keyof T as T[K] extends string | number ? K : never]: T[K]
+}>;
+
 export interface MaterialSelectVirtualScrollConfig<
   T = any
 > {
@@ -13,7 +17,7 @@ export interface MaterialSelectVirtualScrollConfig<
   load: () => Observable<Array<T>>;
   populateBasedOnFormControls?: FormControl[];
   optionItemDescription: keyof T;
-  compositeId?: Array<Extract<keyof T, string>>;
+  compositeId?: Array<Extract<keyof StringOrNumberProps<T>, string>>;
   compositeIdPopulateFormGroup?: FormGroup;
 }
 
