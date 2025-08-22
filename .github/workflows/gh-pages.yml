@@ -28,12 +28,12 @@ jobs:
         git checkout ${{ github.head_ref }}
         npm i
         cd projects/angular-boost-kit/
-        ng build
+        ../../node_modules/.bin/ng build
 
     - name: Build App
       run: |
         cd ../../
-        ng build --base-href="https://betorobson.github.io/angular-boost-kit/"
+        ./node_modules/.bin/ng build --base-href="https://betorobson.github.io/angular-boost-kit/"
         rm -rf ./docs
         mv dist/angular-boost-kit-app/browser ./docs
 
