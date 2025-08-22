@@ -26,6 +26,7 @@ jobs:
       run: |
         git fetch
         git checkout ${{ github.head_ref }}
+        npm i
         cd projects/angular-boost-kit/
         ng build
 
