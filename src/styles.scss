@@ -16,3 +16,20 @@ html {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// SCSS layout flex mix will be place here
+
+[layout]{
+  flex: 1 1 auto;
+}
+
+[layout="row"] {
+  display: flex;
+  flex-direction: row;
+}
+
+[layout="column"] {
+  display: flex;
+  flex-direction: column;
+}
+

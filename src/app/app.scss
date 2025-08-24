@@ -1,6 +1,11 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: row;
   padding: 16px;
+}
+
+.content {
+  width: 100%;
 }
 
 boostkit-material-select-virtual-scroll {

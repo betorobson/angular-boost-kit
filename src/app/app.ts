@@ -6,6 +6,7 @@ import { CdkBoostKitTemplateType, MaterialSelectVirtualScroll, MaterialSelectVir
 import { delay, of } from 'rxjs';
 import { APICitiesItem, APIStatesCitiesNeighborhoods, APIStatesItem } from './api-services/states-cities-neighborhoods';
 import { CommonModule } from '@angular/common';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     MaterialSelectVirtualScroll,
     MatIcon,
+    MatListModule,
     CdkBoostKitTemplateType
   ],
   templateUrl: './app.html',
