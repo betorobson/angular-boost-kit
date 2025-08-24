@@ -1,0 +1,41 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches:
+      - gh-pages  # dispara o workflow quando houver push na branch main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Angular App
+        run: |
+          cd project/angular-boost-kit/
+          ../../node_modules/.bin/ng build
+          cd ../../
+          ./node_modules/.bin/ng build --base-href="https://betorobson.github.io/angular-boost-kit/"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist/angular-boost-kit/browser'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
