@@ -23,7 +23,7 @@ jobs:
 
       - name: Build Angular App
         run: |
-          cd project/angular-boost-kit/
+          cd projects/angular-boost-kit/
           ../../node_modules/.bin/ng build
           cd ../../
           ./node_modules/.bin/ng build --base-href="https://betorobson.github.io/angular-boost-kit/"
