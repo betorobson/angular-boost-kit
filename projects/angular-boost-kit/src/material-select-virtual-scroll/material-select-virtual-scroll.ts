@@ -70,6 +70,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
     }
     this.subscribeFromControl();
     this.initPopulateBasedOn();
+    this.compositeIdPopulateFormGroupWatchValidators();
     this.search();
   }
 
@@ -87,6 +88,19 @@ export class MaterialSelectVirtualScroll implements OnInit {
         loadSubscriber?.unsubscribe();
       }
     )
+  }
+
+  private compositeIdPopulateFormGroupWatchValidators(){
+    if(this.isCompositeId && this.config.compositeIdPopulateFormGroup){
+      const formControlsBasedOnSameCompositeIdKeys = this.config.compositeId.map<FormControl>(
+        key => this.config.compositeIdPopulateFormGroup.controls[key]as FormControl
+      )
+      formControlsBasedOnSameCompositeIdKeys.forEach(
+        formControl => formControl.addValidators(
+          () => this.config.formControl.errors
+        )
+      )
+    }
   }
 
   private mapLoadResultIntoORawOptions(result: any[]){
