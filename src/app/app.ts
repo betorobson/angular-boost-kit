@@ -16,7 +16,7 @@ import { MatListModule } from '@angular/material/list';
     MaterialSelectVirtualScroll,
     MatIcon,
     MatListModule,
-    CdkBoostKitTemplateType
+    CdkBoostKitTemplateType,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
