@@ -1,0 +1,55 @@
+:host {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  mat-form-field {
+    &.has-value {
+      &.replace-arrow-by-reset-button {
+        ::ng-deep .mat-mdc-select-arrow-wrapper {
+          display: none;
+        }
+      }
+    }
+  }
+
+}
+
+.container-panel {
+  display: flex;
+  flex-direction: column;
+  height: 240px;
+
+  .field-search {
+    display: flex;
+    flex: 0 0 auto;
+  }
+
+  .virtual-scroll-viewport {
+    display: flex;
+    flex: 1 1 auto;
+  }
+
+}
+
+.loading-overlay {
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 20px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.field-search {
+  width: 100%;
+  margin-top: -8px;
+}
+
+.option-workaround {
+  display: none;
+}

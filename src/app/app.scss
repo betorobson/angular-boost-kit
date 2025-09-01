@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
+}
+
+.content {
+  width: 100%;
+}
+
+boostkit-material-select-virtual-scroll {
+  max-width: 300px;
+}
+
+.trigger-template {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  mat-icon {
+    display: flex;
+    flex: 0 0 auto;
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    overflow: hidden;
+  }
+}

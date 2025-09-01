@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 
+@import 'angular-boost-kit/src/cdk/scss/angular-material.layout-attributes';
+
 html {
   @include mat.theme((
     color: (
@@ -12,3 +14,9 @@ html {
     density: 0
   ));
 }
+// #964900
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// SCSS layout flex mix will be place here
