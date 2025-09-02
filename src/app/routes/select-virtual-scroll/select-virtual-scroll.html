@@ -1,1 +1,62 @@
-<p>select-virtual-scroll works!</p>
+<boostkit-material-select-virtual-scroll
+  #selectVirtualScrollParent
+  [config]="selectVirtualScrollStatesConfig"
+  [optionTemplate]="optionTemplate"
+  [triggerTemplate]="triggerTemplate"
+>
+  <ng-template #triggerTemplate [cdk-boostkit-template-type]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
+    @if(templateData){
+      <div class="trigger-template">
+        <mat-icon>radio_button_checked</mat-icon>
+        <span>
+          [{{templateData.data[selectVirtualScrollStatesConfig.compositeId[0]]}}]:
+          {{templateData.data[selectVirtualScrollStatesConfig.optionItemDescription]}}
+        </span>
+      </div>
+    }
+  </ng-template>
+  <ng-template #optionTemplate [cdk-boostkit-template-type]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
+    @if(templateData){
+      [{{templateData.data[selectVirtualScrollStatesConfig.compositeId[0]]}}]:
+      {{templateData.data[selectVirtualScrollStatesConfig.optionItemDescription]}}
+    }
+  </ng-template>
+</boostkit-material-select-virtual-scroll>
+
+<boostkit-material-select-virtual-scroll
+  #selectVirtualScrollParent
+  [config]="selectVirtualScrollCitiesConfig"
+>
+</boostkit-material-select-virtual-scroll>
+
+<boostkit-material-select-virtual-scroll
+  [config]="selectVirtualChildScrollConfig"
+>
+</boostkit-material-select-virtual-scroll>
+
+<hr />
+
+<boostkit-material-select-virtual-scroll
+  [config]="selectVirtualScrollMultipleConfig"
+>
+</boostkit-material-select-virtual-scroll>
+
+<hr />
+
+<boostkit-material-select-virtual-scroll
+  [config]="selectVirtualScrollCompositeIdConfig"
+>
+</boostkit-material-select-virtual-scroll>
+
+<pre>{{formGroupComposite.value | json}}</pre>
+<pre>{{selectVirtualScrollCompositeIdConfig.formControl.errors | json}}</pre>
+<div>formGroup Valid? {{formGroupComposite.valid}}</div>
+
+<hr />
+
+<boostkit-material-select-virtual-scroll
+  [config]="selectVirtualScrollMultipleCompositeIdConfig"
+>
+</boostkit-material-select-virtual-scroll>
+
+<hr />

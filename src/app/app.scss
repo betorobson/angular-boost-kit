@@ -26,3 +26,9 @@ boostkit-material-select-virtual-scroll {
     overflow: hidden;
   }
 }
+
+[mat-list-item]{
+  &.active {
+    background-color: var(--mat-list-active-indicator-color, var(--mat-sys-secondary-container));
+  }
+}
