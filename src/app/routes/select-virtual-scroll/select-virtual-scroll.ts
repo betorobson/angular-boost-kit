@@ -64,7 +64,7 @@ export class SelectVirtualScroll {
   };
 
   selectVirtualScrollMultipleConfig: MaterialSelectVirtualScrollConfig<OptionMulitpleItem> = {
-    formControl: new FormControl<number[]>([1,2,26]),
+    formControl: new FormControl<any[]>([1,2,6]),
     multiple: true,
     replaceArrowByResetButton: true,
     compositeId: ['optionChildId'],
@@ -157,6 +157,15 @@ export class SelectVirtualScroll {
       .pipe(delay(1000))
     }
   };
+
+  selectItemOnMultipleCompositeId(){
+    this.selectVirtualScrollMultipleCompositeIdConfig.formControl.setValue(
+      [
+        { "key1": 1, "key2": 13 },
+        ...this.selectVirtualScrollMultipleCompositeIdConfig.formControl.value
+      ]
+    )
+  }
 
   protected setSelectVirtualScrollFormControlValue(id: number){
     this.selectVirtualScrollStatesConfig.formControl.setValue(id);
