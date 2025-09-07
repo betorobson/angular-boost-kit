@@ -25,7 +25,7 @@
   <mat-select
     (openedChange)="openedChange()"
     (opened)="opened()"
-    [formControl]="config.formControl"
+    [(ngModel)]="model"
     [multiple]="config.multiple"
   >
     <mat-select-trigger>
@@ -74,8 +74,8 @@
               let optionItem of options;
               templateCacheSize: 0;
             "
-            [value]="getItemValue(optionItem)"
             (click)="optionSelect($event, optionItem)"
+            [value]="getItemValue(optionItem)"
           >
             <ng-container
               [ngTemplateOutlet]="optionTemplate || defaultTemplateSingle"
@@ -109,5 +109,8 @@
   }
 </mat-form-field>
 
-<pre>{{itemSelected | json}}</pre>
-<pre>{{config.formControl.value | json}}</pre>
+<!-- <pre>{{rawOptionsSelected | json}}</pre> -->
+<pre>{{model | json}}</pre>
+<hr />
+<pre>{{this.itemSelected | json}}</pre>
+<!-- <pre>{{config.formControl.value | json}}</pre> -->

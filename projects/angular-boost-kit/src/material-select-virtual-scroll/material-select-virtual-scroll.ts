@@ -62,6 +62,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
   protected options: Array<OptionMetaData> = [];
   private rawOptions: Array<OptionMetaData> = [];
+  protected model: any;
 
   ngOnInit(): void {
     this.isCompositeId = this.config.compositeId.length > 1;
@@ -252,6 +253,8 @@ export class MaterialSelectVirtualScroll implements OnInit {
     }
   }
 
+  // rawOptionsSelected: OptionMetaData[] = [];
+
   itemSelectBasedOnFormControlvalue(){
 
     const formControlValue = this.config.formControl.value;
@@ -260,24 +263,20 @@ export class MaterialSelectVirtualScroll implements OnInit {
       option => this.isItemSelectedInFormControl(option)
     );
 
-    console.log(structuredClone(this.rawOptions.filter(item => item.selected)))
+    // this.rawOptionsSelected.splice(
+    //   0,
+    //   this.rawOptionsSelected.length,
+    //   ...this.rawOptions.filter(
+    //     item => item.selected
+    //   )
+    // );
 
     if(formControlValue){
+
       if(this.config.multiple && Array.isArray(formControlValue)){
 
         const arrayOfvalues = this.rawOptions.filter(
           item => item.selected
-        );
-
-        this.config.formControl.setValue(
-          arrayOfvalues.map(
-            item => this.config.compositeId.length === 1
-              ? item.id[this.config.compositeId[0]]
-              : item.id
-          ),
-          {
-            emitEvent: false
-          }
         );
 
         this.itemSelect(arrayOfvalues);
@@ -303,12 +302,20 @@ export class MaterialSelectVirtualScroll implements OnInit {
   //   })
   // }
 
-  itemSelect(items: any[]){
+  itemSelect(items: OptionMetaData[]){
+
     this.itemSelected.splice(0);
+
     if(items && items.length){
       this.itemSelected.push(...items);
     }
+
+    if(this.config.multiple){
+      this.model = items.map(item => this.getItemValue(item));
+    }
+
     this.compositeIdPopulateFormGroup();
+
   }
 
   private compositeIdPopulateFormGroup(){
@@ -349,6 +356,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
   }
 
   protected optionSelect($event: MouseEvent, optionItem: OptionMetaData){
+
     $event.preventDefault();
     $event.stopPropagation();
 
@@ -356,9 +364,24 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
       optionItem.selected = !optionItem.selected;
 
+      this.config.formControl.setValue(
+        this.rawOptions.filter(item => item.selected).map(
+          item => this.config.compositeId.length === 1
+            ? item.id[this.config.compositeId[0]]
+            : item.id
+        ),
+        {
+          emitEvent: false
+        }
+      );
+
       this.itemSelectBasedOnFormControlvalue();
 
+      // this.teste = this.rawOptions.filter(item => item.selected);
+      // console.log('teste 1', structuredClone(this.rawOptions.filter(item => item.selected)))
+
     }
+
   }
 
   protected openedChange(){
