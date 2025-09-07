@@ -6,7 +6,7 @@ import { MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger, MatSuff
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialSelectVirtualScrollConfig, OptionMetaData } from './config.interface';
 import { MatProgressBar } from '@angular/material/progress-bar';
-import { debounceTime, delay, distinctUntilChanged, merge, of, switchMap } from 'rxjs';
+import { debounceTime, delay, distinctUntilChanged, map, merge, of, switchMap, tap } from 'rxjs';
 import { MatInput } from '@angular/material/input';
 import { FilterData } from '../cdk/helpers/text-search';
 import { MatIcon } from '@angular/material/icon';
@@ -56,6 +56,15 @@ export class MaterialSelectVirtualScroll implements OnInit {
 	@Input() triggerTemplate: TemplateRef<any>;
 
   @ViewChild('inputSearch') private inputSearch: ElementRef<HTMLInputElement>;
+
+  @ViewChild(MatSelect) private set matSelect(matSelect: MatSelect){
+    if(matSelect){
+      matSelect.ngControl.control.addAsyncValidators(() => of(null).pipe(
+        delay(100),
+        map(() => this.config.formControl.errors)
+      ));
+    }
+  }
 
 	@ViewChild(CdkVirtualScrollViewport, { static: false })
 		private cdkVirtualScrollViewPort: CdkVirtualScrollViewport;
@@ -128,12 +137,13 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
     const formControlValue = this.config.formControl.value;
 
-    if(!Array.isArray(formControlValue)){
-      return;
-    }
 
-    // [todo] not multiple
     if(this.config.multiple){
+
+      if(!Array.isArray(formControlValue)){
+        return;
+      }
+
       if(this.config.compositeId.length === 1){
         optionMetaData.selected = formControlValue.includes(optionMetaData.id[this.config.compositeId[0]]);
       }else{
@@ -141,6 +151,9 @@ export class MaterialSelectVirtualScroll implements OnInit {
           item => JSON.stringify(item) === JSON.stringify(optionMetaData.id)
         );
       }
+
+    }else{
+      optionMetaData.selected = formControlValue === this.getItemValue(optionMetaData);
     }
 
   }
@@ -172,6 +185,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
       const allBaseOnFormControlsHasValue = this.allBaseOnFormControlsHasValue();
 
+      this.model = null;
       this.config.formControl.setValue(null);
       this.config.formControl.disable();
 
@@ -203,6 +217,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
   private populateBasedOnValueChangesResult(){
     const allBaseOnFormControlsHasValue = this.allBaseOnFormControlsHasValue();
     this.config.formControl.setValue(this.config.multiple ? [] : null);
+    this.model = (this.config.multiple ? [] : null)
     this.options = [];
     this.config.formControl.disable();
     if(allBaseOnFormControlsHasValue){
@@ -212,15 +227,8 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
   private subscribeFromControl(){
 
-    // if(this.config.multiple && Array.isArray(this.config.formControl.value)){
-    //   this.multipleArrayValues.splice(0);
-    //   this.multipleArrayValues.push(...this.config.formControl.value);
-    // }
-
     // [todo] auto unsubscribe
     this.config.formControl.valueChanges.subscribe(() => {
-
-      // console.log(structuredClone(this.config.formControl.value))
 
       this.itemSelectBasedOnFormControlvalue();
 
@@ -253,8 +261,6 @@ export class MaterialSelectVirtualScroll implements OnInit {
     }
   }
 
-  // rawOptionsSelected: OptionMetaData[] = [];
-
   itemSelectBasedOnFormControlvalue(){
 
     const formControlValue = this.config.formControl.value;
@@ -263,44 +269,19 @@ export class MaterialSelectVirtualScroll implements OnInit {
       option => this.isItemSelectedInFormControl(option)
     );
 
-    // this.rawOptionsSelected.splice(
-    //   0,
-    //   this.rawOptionsSelected.length,
-    //   ...this.rawOptions.filter(
-    //     item => item.selected
-    //   )
-    // );
-
     if(formControlValue){
 
-      if(this.config.multiple && Array.isArray(formControlValue)){
+      const arrayOfvalues = this.rawOptions.filter(
+        item => item.selected
+      );
 
-        const arrayOfvalues = this.rawOptions.filter(
-          item => item.selected
-        );
-
-        this.itemSelect(arrayOfvalues);
-
-      }else if(!this.config.multiple && !Array.isArray(formControlValue)){
-        // [todo]
-        // this.itemSelect(
-        //   this.options.filter(
-        //     option => this.isOptionItemSameOfCompositeId(option, formControlValue)
-        //   )
-        // )
-      }
+      this.itemSelect(arrayOfvalues);
 
     }else{
       this.itemSelect(null);
     }
 
   }
-
-  // private isOptionItemSameOfCompositeId(optionItem: OptionMetaData, compositiIdValue: any){
-  //   return !Object.entries(compositiIdValue as Partial<OptionMetaData['data']>).some(([key, value]) => {
-  //     return optionItem.id[key] !== value
-  //   })
-  // }
 
   itemSelect(items: OptionMetaData[]){
 
@@ -353,6 +334,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
   reset($event: MouseEvent){
     $event.stopPropagation();
     this.config.formControl.setValue(this.config.multiple ? [] : null);
+    this.model = null;
   }
 
   protected optionSelect($event: MouseEvent, optionItem: OptionMetaData){
@@ -360,25 +342,23 @@ export class MaterialSelectVirtualScroll implements OnInit {
     $event.preventDefault();
     $event.stopPropagation();
 
-    if(this.config.multiple){
+    optionItem.selected = !optionItem.selected;
 
-      optionItem.selected = !optionItem.selected;
+    if(this.config.multiple){
 
       this.config.formControl.setValue(
         this.rawOptions.filter(item => item.selected).map(
           item => this.config.compositeId.length === 1
             ? item.id[this.config.compositeId[0]]
             : item.id
-        ),
-        {
-          emitEvent: false
-        }
+        )
       );
 
-      this.itemSelectBasedOnFormControlvalue();
+    }else{
 
-      // this.teste = this.rawOptions.filter(item => item.selected);
-      // console.log('teste 1', structuredClone(this.rawOptions.filter(item => item.selected)))
+      this.config.formControl.setValue(
+        this.getItemValue(optionItem)
+      )
 
     }
 

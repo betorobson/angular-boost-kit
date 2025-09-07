@@ -27,6 +27,7 @@
     (opened)="opened()"
     [(ngModel)]="model"
     [multiple]="config.multiple"
+    [disabled]="config.formControl.disabled"
   >
     <mat-select-trigger>
       @if(config.multiple){
@@ -108,9 +109,3 @@
     </button>
   }
 </mat-form-field>
-
-<!-- <pre>{{rawOptionsSelected | json}}</pre> -->
-<pre>{{model | json}}</pre>
-<hr />
-<pre>{{this.itemSelected | json}}</pre>
-<!-- <pre>{{config.formControl.value | json}}</pre> -->
