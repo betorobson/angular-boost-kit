@@ -22,6 +22,7 @@ export interface MaterialSelectVirtualScrollConfig<
 }
 
 export interface OptionMetaData<T = any> {
+  selected: boolean;
   id: Partial<T>;
   data: T;
 }

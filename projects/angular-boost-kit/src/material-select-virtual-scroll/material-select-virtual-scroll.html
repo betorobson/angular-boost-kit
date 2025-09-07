@@ -25,7 +25,7 @@
   <mat-select
     (openedChange)="openedChange()"
     (opened)="opened()"
-    [formControl]="formControl"
+    [formControl]="config.formControl"
     [multiple]="config.multiple"
   >
     <mat-select-trigger>
@@ -110,6 +110,4 @@
 </mat-form-field>
 
 <pre>{{itemSelected | json}}</pre>
-<pre>{{multipleArrayValues | json}}</pre>
-<pre>{{formControl.value | json}}</pre>
 <pre>{{config.formControl.value | json}}</pre>
