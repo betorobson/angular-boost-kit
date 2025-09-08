@@ -325,9 +325,9 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
   getItemValue(optionItem: OptionMetaData){
     if(this.isCompositeId){
-      return optionItem.id[this.config.compositeId[0]];
-    }else{
       return optionItem.id;
+    }else{
+      return optionItem.id[this.config.compositeId[0]];
     }
   }
 
@@ -375,7 +375,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
       this.cdkVirtualScrollViewPort.checkViewportSize();
       if(this.itemSelected?.[0]){
         const index = this.options.findIndex(
-          option => option.id[this.config.compositeId[0]] === this.itemSelected[0].id[this.config.compositeId[0]]
+          option => option.id === this.itemSelected[0].id
         )
         this.cdkVirtualScrollViewPort.scrollToIndex(index);
       }
