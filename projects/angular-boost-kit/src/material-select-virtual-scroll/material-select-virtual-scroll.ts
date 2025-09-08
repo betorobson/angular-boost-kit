@@ -144,7 +144,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
         return;
       }
 
-      if(this.config.compositeId.length === 1){
+      if(this.isCompositeId){
         optionMetaData.selected = formControlValue.includes(this.getItemValue(optionMetaData));
       }else{
         optionMetaData.selected = !!formControlValue.find(
@@ -324,7 +324,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
   }
 
   getItemValue(optionItem: OptionMetaData){
-    if(this.config.compositeId.length === 1){
+    if(this.isCompositeId){
       return optionItem.id[this.config.compositeId[0]];
     }else{
       return optionItem.id;
@@ -348,9 +348,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
       this.config.formControl.setValue(
         this.rawOptions.filter(item => item.selected).map(
-          item => this.config.compositeId.length === 1
-            ? item.id[this.config.compositeId[0]]
-            : item.id
+          item => this.getItemValue(item)
         )
       );
 
