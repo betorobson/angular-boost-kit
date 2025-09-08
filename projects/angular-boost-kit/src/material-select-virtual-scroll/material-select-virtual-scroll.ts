@@ -90,7 +90,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
       result => {
         this.rawOptions.splice(0);
         this.options.splice(0);
-        this.mapLoadResultIntoORawOptions(result);
+        this.mapLoadResultIntoRawOptions(result);
         this.searchPopulate('');
         this.itemSelectBasedOnFormControlvalue();
         this.loading = false;
@@ -113,7 +113,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
     }
   }
 
-  private mapLoadResultIntoORawOptions(result: any[]){
+  private mapLoadResultIntoRawOptions(result: any[]){
 
     const optionMetaData: OptionMetaData[] = result.map<OptionMetaData>(item => {
       const optionMetaData = {
@@ -145,10 +145,10 @@ export class MaterialSelectVirtualScroll implements OnInit {
       }
 
       if(this.config.compositeId.length === 1){
-        optionMetaData.selected = formControlValue.includes(optionMetaData.id[this.config.compositeId[0]]);
+        optionMetaData.selected = formControlValue.includes(this.getItemValue(optionMetaData));
       }else{
         optionMetaData.selected = !!formControlValue.find(
-          item => JSON.stringify(item) === JSON.stringify(optionMetaData.id)
+          item => JSON.stringify(item) === JSON.stringify(this.getItemValue(optionMetaData))
         );
       }
 
