@@ -5,7 +5,7 @@ import { MatIcon } from '@angular/material/icon';
 import { CdkBoostKitTemplateType, MaterialSelectVirtualScroll, MaterialSelectVirtualScrollConfig  } from 'angular-boost-kit';
 import { delay, of } from 'rxjs';
 import { APICitiesItem, APIStatesCitiesNeighborhoods, APIStatesItem } from './routes/select-virtual-scroll/api-services/states-cities-neighborhoods';
-import { CommonModule } from '@angular/common';
+
 import { MatListModule } from '@angular/material/list';
 import { SharedModules } from './shared.modules';
 
