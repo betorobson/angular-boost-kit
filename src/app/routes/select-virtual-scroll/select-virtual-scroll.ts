@@ -130,6 +130,7 @@ export class SelectVirtualScroll {
     OptionCompositeIdExample
   > = {
     // [todo] FormControl Type of compositeId
+    // [todo] ja nao lembro mais o que eu estava fazendo, mas lembro que quand o formControl inicia dessa forma, os itens não aparecem selecionados.
     formControl: new FormControl<any[]>([ { "key1": 1, "key2": 10 }, { "key1": 1, "key2": 12 } ]),
     multiple: true,
     replaceArrowByResetButton: true,

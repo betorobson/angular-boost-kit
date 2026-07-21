@@ -283,7 +283,7 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
   }
 
-  itemSelect(items: OptionMetaData[]){
+  itemSelect(items: OptionMetaData[]) {
 
     this.itemSelected.splice(0);
 
@@ -299,13 +299,14 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
   }
 
-  private compositeIdPopulateFormGroup(){
+  private compositeIdPopulateFormGroup() {
 
     if(!this.config.compositeIdPopulateFormGroup){
       return;
     }
 
-    if(this.config.multiple){
+    if (this.config.multiple) {
+      debugger
       // [todo]
     }else{
       if(this.itemSelected.length){
