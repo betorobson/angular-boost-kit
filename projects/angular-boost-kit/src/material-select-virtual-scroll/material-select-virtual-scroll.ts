@@ -183,13 +183,12 @@ export class MaterialSelectVirtualScroll implements OnInit {
 
   private searchPopulate(keyword: string){
     if(!keyword){
-      this.options.push(...this.rawOptions);
+      this.options = [...this.rawOptions];
     }else{
-      // [todo] search into metaData.data
       this.options = FilterData(
         keyword,
         this.rawOptions,
-        this.config.optionItemDescription.toString()
+        item => String(item.data[this.config.optionItemDescription] ?? '')
       )
     }
   }

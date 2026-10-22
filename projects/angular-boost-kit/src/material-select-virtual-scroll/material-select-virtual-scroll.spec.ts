@@ -41,4 +41,45 @@ describe('MaterialSelectVirtualScroll', () => {
 
     expect(component['itemSelected']).toEqual([option]);
   });
+
+  it('filters options by their description inside the original data', () => {
+    const options = [
+      {
+        selected: false,
+        id: { key1: 1, key2: 10 },
+        data: { key1: 1, key2: 10, description: 'São Paulo' },
+      },
+      {
+        selected: false,
+        id: { key1: 1, key2: 11 },
+        data: { key1: 1, key2: 11, description: 'Rio de Janeiro' },
+      },
+    ];
+    component['rawOptions'].push(...options);
+
+    component['searchPopulate']('sao');
+
+    expect(component['options']).toEqual([options[0]]);
+  });
+
+  it('restores all options once the search is cleared', () => {
+    const options = [
+      {
+        selected: false,
+        id: { key1: 1, key2: 10 },
+        data: { key1: 1, key2: 10, description: 'São Paulo' },
+      },
+      {
+        selected: false,
+        id: { key1: 1, key2: 11 },
+        data: { key1: 1, key2: 11, description: 'Rio de Janeiro' },
+      },
+    ];
+    component['rawOptions'].push(...options);
+
+    component['searchPopulate']('sao');
+    component['searchPopulate']('');
+
+    expect(component['options']).toEqual(options);
+  });
 });
