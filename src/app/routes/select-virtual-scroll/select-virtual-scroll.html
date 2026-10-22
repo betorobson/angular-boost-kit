@@ -1,71 +1,283 @@
-<boostkit-material-select-virtual-scroll
-  #selectVirtualScrollParent
-  [config]="selectVirtualScrollStatesConfig"
-  [optionTemplate]="optionTemplate"
-  [triggerTemplate]="triggerTemplate"
->
-  <ng-template #triggerTemplate [cdk-boostkit-template-type]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
-    @if(templateData){
-      <div class="trigger-template">
-        <mat-icon>radio_button_checked</mat-icon>
-        <span>
-          [{{templateData.data[selectVirtualScrollStatesConfig.compositeId[0]]}}]:
-          {{templateData.data[selectVirtualScrollStatesConfig.optionItemDescription]}}
-        </span>
+<main class="docs-page">
+  <article class="docs-content">
+    <header class="page-heading" id="overview">
+      <div class="eyebrow">ANGULAR BOOST KIT · FORMULÁRIOS</div>
+      <h1>Select Virtual Scroll</h1>
+      <p class="lead">
+        Um seletor baseado no Angular Material para listas grandes, com busca,
+        carregamento assíncrono, seleção múltipla e opções dependentes.
+      </p>
+      <mat-chip-set aria-label="Recursos">
+        <mat-chip>Standalone</mat-chip>
+        <mat-chip>Reactive Forms</mat-chip>
+        <mat-chip>CDK Virtual Scroll</mat-chip>
+      </mat-chip-set>
+    </header>
+
+    <section class="doc-section">
+      <h2>Instalação e importação</h2>
+      <p>
+        Importe o componente e seu tipo de configuração do pacote
+        <code>angular-boost-kit</code>. No componente standalone que usa o
+        seletor, inclua <code>MaterialSelectVirtualScroll</code> em
+        <code>imports</code>.
+      </p>
+      <pre><code>import &#123;
+  MaterialSelectVirtualScroll,
+  MaterialSelectVirtualScrollConfig
+&#125; from 'angular-boost-kit';</code></pre>
+      <p>O elemento público é <code>&lt;boostkit-material-select-virtual-scroll&gt;</code>.</p>
+    </section>
+
+    <section class="doc-section" id="examples">
+      <h2>Exemplos</h2>
+      <p class="section-intro">Experimente os controles e veja o código usado em cada variação.</p>
+
+      <mat-card appearance="outlined" class="example-card">
+        <mat-card-content class="example-layout">
+        <div class="example-copy">
+          <h3>Seleção simples</h3>
+          <p>
+            O valor do <code>FormControl</code> é o identificador da opção.
+            Digite no campo de busca para filtrar pelo texto configurado em
+            <code>optionItemDescription</code>.
+          </p>
+          <pre><code>{{ basicTypescript }}</code></pre>
+          <pre><code>{{ basicHtml }}</code></pre>
+        </div>
+        <div class="example-preview">
+          <span class="preview-label">DEMO</span>
+          <boostkit-material-select-virtual-scroll
+            [config]="statesConfig"
+            [optionTemplate]="stateOptionTemplate"
+            [triggerTemplate]="stateTriggerTemplate"
+          >
+            <ng-template #stateOptionTemplate [cdk-boostkit-template-type]="statesConfig.templateDataOptionMeta" let-templateData="templateData">
+              <span class="state-option">
+                <span>{{ templateData.data.stateName }}</span>
+                <code>{{ templateData.data.stateId }}</code>
+              </span>
+            </ng-template>
+            <ng-template #stateTriggerTemplate [cdk-boostkit-template-type]="statesConfig.templateDataOptionMeta" let-templateData="templateData">
+              @if (templateData) {
+                <span class="state-option">
+                  <span>{{ templateData.data.stateName }}</span>
+                  <code>{{ templateData.data.stateId }}</code>
+                </span>
+              } @else {
+                Selecione um estado
+              }
+            </ng-template>
+          </boostkit-material-select-virtual-scroll>
+          <p class="value-output">FormControl: <code>{{ stateControl.value ?? 'null' }}</code></p>
+        </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined" class="example-card">
+        <mat-card-content class="example-layout">
+        <div class="example-copy">
+          <h3>Campos dependentes</h3>
+          <p>
+            <code>populateBasedOnFormControls</code> mantém cidades desabilitadas
+            até que um estado seja selecionado. Ao trocar o estado, a seleção
+            anterior é limpa e as opções são carregadas novamente.
+          </p>
+          <pre><code>{{ dependentHtml }}</code></pre>
+          <pre><code>citiesConfig: MaterialSelectVirtualScrollConfig&lt;City&gt; = &#123;
+  formControl: new FormControl&lt;number | null&gt;(null),
+  compositeId: ['cityId'],
+  optionItemDescription: 'cityName',
+  populateBasedOnFormControls: [stateControl],
+  load: () =&gt; this.api.getCities(stateControl.value),
+&#125;;</code></pre>
+        </div>
+        <div class="example-preview">
+          <span class="preview-label">DEMO</span>
+          <boostkit-material-select-virtual-scroll [config]="citiesConfig"></boostkit-material-select-virtual-scroll>
+          <p class="value-output">Cidade: <code>{{ cityControl.value ?? 'null' }}</code></p>
+        </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined" class="example-card">
+        <mat-card-content class="example-layout">
+        <div class="example-copy">
+          <h3>Seleção múltipla e lista grande</h3>
+          <p>
+            Com <code>multiple: true</code>, o control contém um array de IDs.
+            O exemplo gera mil opções; a lista virtual renderiza apenas os itens
+            necessários para a área visível. O botão de limpar remove a seleção.
+          </p>
+          <pre><code>{{ multipleTypescript }}</code></pre>
+          <pre><code>&lt;boostkit-material-select-virtual-scroll
+  [config]="productsConfig"
+&gt;&lt;/boostkit-material-select-virtual-scroll&gt;</code></pre>
+        </div>
+        <div class="example-preview">
+          <span class="preview-label">DEMO · 1.000 OPÇÕES</span>
+          <boostkit-material-select-virtual-scroll [config]="productsConfig"></boostkit-material-select-virtual-scroll>
+          <p class="value-output">IDs selecionados:</p>
+          <pre class="compact-output"><code>{{ productControl.value | json }}</code></pre>
+        </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined" class="example-card">
+        <mat-card-content class="example-layout">
+        <div class="example-copy">
+          <h3>ID composto</h3>
+          <p>
+            Quando a identidade depende de mais de um campo, informe todas as
+            chaves em <code>compositeId</code>. O valor passa a ser um objeto
+            com essas chaves. Opcionalmente, o grupo associado recebe os campos
+            da opção selecionada.
+          </p>
+          <pre><code>{{ compositeTypescript }}</code></pre>
+          <pre><code>&lt;boostkit-material-select-virtual-scroll
+  [config]="compositeConfig"
+&gt;&lt;/boostkit-material-select-virtual-scroll&gt;</code></pre>
+        </div>
+        <div class="example-preview">
+          <span class="preview-label">DEMO</span>
+          <boostkit-material-select-virtual-scroll [config]="compositeConfig"></boostkit-material-select-virtual-scroll>
+          <p class="value-output">ID selecionado:</p>
+          <pre class="compact-output"><code>{{ compositeControl.value | json }}</code></pre>
+          <p class="value-output">FormGroup associado:</p>
+          <pre class="compact-output"><code>{{ compositeFields.value | json }}</code></pre>
+        </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined" class="example-card">
+        <mat-card-content class="example-layout">
+        <div class="example-copy">
+          <h3>Templates customizados</h3>
+          <p>
+            Use <code>optionTemplate</code> para personalizar cada opção.
+            <code>triggerTemplate</code> personaliza o valor exibido no campo
+            fechado. Em templates simples, <code>templateData</code> é o
+            metadado da opção e <code>templateData.data</code> contém o objeto
+            original.
+          </p>
+          <pre><code>{{ customTemplateHtml }}</code></pre>
+        </div>
+        <div class="example-preview">
+          <span class="preview-label">DEMO · NO PRIMEIRO EXEMPLO</span>
+          <p>O primeiro seletor usa templates diferentes para a opção e para o valor selecionado.</p>
+        </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+
+    <section class="doc-section" id="api">
+      <h2>API</h2>
+      <h3>Inputs do componente</h3>
+      <div class="table-wrap">
+        <table mat-table [dataSource]="componentInputs">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Input</th>
+            <td mat-cell *matCellDef="let input"><code>{{ input.name }}</code></td>
+          </ng-container>
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>Tipo</th>
+            <td mat-cell *matCellDef="let input"><code>{{ input.type }}</code></td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Descrição</th>
+            <td mat-cell *matCellDef="let input">{{ input.description }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="componentInputColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: componentInputColumns"></tr>
+        </table>
       </div>
-    }
-  </ng-template>
-  <ng-template #optionTemplate [cdk-boostkit-template-type]="selectVirtualScrollStatesConfig.templateDataOptionMeta" let-templateData="templateData">
-    @if(templateData){
-      [{{templateData.data[selectVirtualScrollStatesConfig.compositeId[0]]}}]:
-      {{templateData.data[selectVirtualScrollStatesConfig.optionItemDescription]}}
-    }
-  </ng-template>
-</boostkit-material-select-virtual-scroll>
 
-<boostkit-material-select-virtual-scroll
-  #selectVirtualScrollParent
-  [config]="selectVirtualScrollCitiesConfig"
->
-</boostkit-material-select-virtual-scroll>
+      <h3>Propriedades de <code>MaterialSelectVirtualScrollConfig&lt;T&gt;</code></h3>
+      <div class="table-wrap">
+        <table mat-table [dataSource]="configProperties">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Propriedade</th>
+            <td mat-cell *matCellDef="let property"><code>{{ property.name }}</code></td>
+          </ng-container>
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>Tipo</th>
+            <td mat-cell *matCellDef="let property"><code>{{ property.type }}</code></td>
+          </ng-container>
+          <ng-container matColumnDef="required">
+            <th mat-header-cell *matHeaderCellDef>Obrigatória</th>
+            <td mat-cell *matCellDef="let property">{{ property.required ? 'Sim' : 'Não' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Descrição</th>
+            <td mat-cell *matCellDef="let property">{{ property.description }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="configPropertyColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: configPropertyColumns"></tr>
+        </table>
+      </div>
 
-<boostkit-material-select-virtual-scroll
-  [config]="selectVirtualChildScrollConfig"
->
-</boostkit-material-select-virtual-scroll>
+      <h3>Valor do formulário</h3>
+      <div class="table-wrap">
+        <table mat-table [dataSource]="valueFormats">
+          <ng-container matColumnDef="mode">
+            <th mat-header-cell *matHeaderCellDef>Modo</th>
+            <td mat-cell *matCellDef="let value"><code>{{ value.mode }}</code></td>
+          </ng-container>
+          <ng-container matColumnDef="format">
+            <th mat-header-cell *matHeaderCellDef>Formato do valor</th>
+            <td mat-cell *matCellDef="let value">{{ value.format }}</td>
+          </ng-container>
+          <ng-container matColumnDef="example">
+            <th mat-header-cell *matHeaderCellDef>Exemplo</th>
+            <td mat-cell *matCellDef="let value"><code>{{ value.example }}</code></td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="valueFormatColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: valueFormatColumns"></tr>
+        </table>
+      </div>
 
-<hr />
+      <h3>Contexto dos templates</h3>
+      <p>
+        Os templates recebem a variável contextual <code>templateData</code>.
+        Para uma opção simples ela é um <code>OptionMetaData&lt;T&gt;</code>;
+        no trigger múltiplo, é um array desse tipo.
+      </p>
+      <pre><code>interface OptionMetaData&lt;T&gt; &#123;
+  selected: boolean;
+  id: Partial&lt;T&gt;; // identificador montado a partir de compositeId
+  data: T;         // opção original retornada por load()
+&#125;</code></pre>
 
-<boostkit-material-select-virtual-scroll
-  [config]="selectVirtualScrollMultipleConfig"
->
-</boostkit-material-select-virtual-scroll>
+      <h3>Outputs</h3>
+      <p>
+        O componente não expõe outputs Angular próprios. Para reagir a mudanças,
+        assine <code>config.formControl.valueChanges</code>; para validação e
+        estado desabilitado, use diretamente o <code>FormControl</code>.
+      </p>
+    </section>
 
-<hr />
+    <section class="doc-section" id="behavior">
+      <h2>Comportamento e observações</h2>
+      <mat-list class="behavior-list">
+        <mat-list-item>A busca é local, aplica debounce de 200 ms e filtra apenas o campo configurado em <code>optionItemDescription</code>.</mat-list-item>
+        <mat-list-item>O painel tem altura fixa de 240 px; a lista virtual usa altura de item de 48 px.</mat-list-item>
+        <mat-list-item><code>load</code> deve retornar um <code>Observable&lt;T[]&gt;</code>. Uma barra de progresso é exibida durante o carregamento.</mat-list-item>
+        <mat-list-item>Em campos dependentes, qualquer mudança nos controles-base limpa o valor atual. O carregamento ocorre quando todos tiverem valor diferente de <code>null</code>.</mat-list-item>
+        <mat-list-item>Por padrão há uma opção “None” para limpar. <code>hideResetOption</code> a oculta; <code>replaceArrowByResetButton</code> também a oculta e mostra o botão de limpar após uma seleção.</mat-list-item>
+        <mat-list-item><code>compositeIdPopulateFormGroup</code> atualiza os campos do grupo no modo simples; a combinação com seleção múltipla não é suportada.</mat-list-item>
+        <mat-list-item>O controle deve começar com um ID que corresponda às opções carregadas para que a seleção inicial seja apresentada.</mat-list-item>
+      </mat-list>
+    </section>
 
-<boostkit-material-select-virtual-scroll
-  [config]="selectVirtualScrollCompositeIdConfig"
->
-</boostkit-material-select-virtual-scroll>
-
-<pre>{{formGroupComposite.value | json}}</pre>
-<pre>{{selectVirtualScrollCompositeIdConfig.formControl.errors | json}}</pre>
-<div>formGroup Valid? {{formGroupComposite.valid}}</div>
-
-<hr />
-
-<boostkit-material-select-virtual-scroll
-  [config]="selectVirtualScrollMultipleCompositeIdConfig"
->
-</boostkit-material-select-virtual-scroll>
-
-<pre>{{selectVirtualScrollMultipleCompositeIdConfig.formControl.value | json}}</pre>
-
-<button
-  (click)="selectItemOnMultipleCompositeId()"
-  mat-flat-button color="primary"
->
-  Select one more item
-</button>
-
-<hr />
+    <footer class="page-footer">Angular Boost Kit · Select Virtual Scroll</footer>
+  </article>
+  <aside aria-label="Nesta página">
+    <mat-nav-list class="table-of-contents">
+      <div mat-subheader>Nesta página</div>
+      <a mat-list-item href="#overview">Visão geral</a>
+      <a mat-list-item href="#examples">Exemplos</a>
+      <a mat-list-item href="#api">API</a>
+      <a mat-list-item href="#behavior">Comportamento</a>
+    </mat-nav-list>
+  </aside>
+</main>

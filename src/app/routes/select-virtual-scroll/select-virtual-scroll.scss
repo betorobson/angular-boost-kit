@@ -1,0 +1,218 @@
+:host {
+  display: block;
+}
+
+.docs-page {
+  display: grid;
+  grid-template-columns: minmax(0, 920px) 180px;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 40px 64px;
+}
+
+.docs-content {
+  min-width: 0;
+}
+
+.page-heading {
+  padding: 8px 0 24px;
+
+  h1 {
+    margin: 8px 0;
+    font-size: clamp(34px, 5vw, 48px);
+    line-height: 1.15;
+  }
+
+  mat-chip-set {
+    display: block;
+    margin-top: 18px;
+  }
+}
+
+.eyebrow,
+.preview-label {
+  color: var(--mat-sys-primary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.lead,
+.section-intro {
+  max-width: 760px;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.doc-section {
+  padding: 24px 0;
+  line-height: 1.6;
+
+  h2 {
+    margin: 0 0 12px;
+    font-size: 26px;
+  }
+
+  h3 {
+    margin: 24px 0 8px;
+    font-size: 19px;
+  }
+
+  p {
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+mat-card.example-card {
+  margin: 18px 0;
+}
+
+.example-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 300px);
+  gap: 28px;
+  align-items: start;
+}
+
+.example-copy {
+  min-width: 0;
+
+  h3 {
+    margin-top: 0;
+  }
+
+  p {
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.example-preview {
+  min-width: 0;
+  border-radius: 8px;
+  background: var(--mat-sys-surface-container-low);
+  padding: 16px;
+
+  boostkit-material-select-virtual-scroll {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .value-output {
+    margin: 14px 0 6px;
+    font-size: 12px;
+  }
+}
+
+.state-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+code {
+  border-radius: 3px;
+  background: var(--mat-sys-surface-container-high);
+  padding: 2px 5px;
+  color: var(--mat-sys-primary);
+  font-family: 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  overflow: auto;
+  margin: 12px 0;
+  border-radius: 8px;
+  background: var(--mat-sys-surface-container-low);
+  padding: 14px 16px;
+  line-height: 1.55;
+
+  code {
+    padding: 0;
+    background: transparent;
+    color: var(--mat-sys-on-surface);
+    font-size: 12px;
+    white-space: pre;
+  }
+}
+
+.compact-output {
+  margin-top: 4px;
+  padding: 8px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 12px 0 24px;
+}
+
+table[mat-table] {
+  width: 100%;
+
+  th[mat-header-cell] {
+    color: var(--mat-sys-on-surface);
+    font-weight: 600;
+  }
+
+  td[mat-cell] {
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  td[mat-cell] code {
+    white-space: nowrap;
+  }
+}
+
+.behavior-list {
+  padding: 0;
+
+  mat-list-item {
+    height: auto;
+    min-height: 48px;
+  }
+}
+
+.table-of-contents {
+  position: sticky;
+  top: 88px;
+  width: 180px;
+  padding-top: 8px;
+
+  a {
+    border-radius: 0 24px 24px 0;
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 13px;
+  }
+}
+
+.page-footer {
+  padding-top: 24px;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 12px;
+}
+
+@media (max-width: 1100px) {
+  .docs-page {
+    grid-template-columns: minmax(0, 920px);
+    padding: 24px;
+  }
+
+  .docs-page > aside {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .docs-page {
+    padding: 18px 14px 40px;
+  }
+
+  .example-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+}

@@ -145,7 +145,9 @@ export class MaterialSelectVirtualScroll implements OnInit {
       }
 
       if(this.isCompositeId){
-        optionMetaData.selected = formControlValue.includes(this.getItemValue(optionMetaData));
+        optionMetaData.selected = formControlValue.some(
+          item => this.isSameItemValue(item, this.getItemValue(optionMetaData))
+        );
       }else{
         optionMetaData.selected = !!formControlValue.find(
           item => JSON.stringify(item) === JSON.stringify(this.getItemValue(optionMetaData))
@@ -153,9 +155,21 @@ export class MaterialSelectVirtualScroll implements OnInit {
       }
 
     }else{
-      optionMetaData.selected = formControlValue === this.getItemValue(optionMetaData);
+      optionMetaData.selected = this.isSameItemValue(
+        formControlValue,
+        this.getItemValue(optionMetaData)
+      );
     }
 
+  }
+
+  private isSameItemValue(value: any, optionValue: any){
+    if(this.isCompositeId){
+      return !!value
+        && this.config.compositeId.every(key => value[key] === optionValue[key]);
+    }
+
+    return value === optionValue;
   }
 
   private search(){
@@ -376,7 +390,9 @@ export class MaterialSelectVirtualScroll implements OnInit {
       this.cdkVirtualScrollViewPort.checkViewportSize();
       if(this.itemSelected?.[0]){
         const index = this.options.findIndex(
-          option => option.id === this.itemSelected[0].id
+          option => this.config.compositeId.every(
+            key => option.id[key] === this.itemSelected[0].id[key]
+          )
         )
         this.cdkVirtualScrollViewPort.scrollToIndex(index);
       }

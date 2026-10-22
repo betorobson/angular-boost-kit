@@ -17,7 +17,7 @@ export interface MaterialSelectVirtualScrollConfig<
   load: () => Observable<Array<T>>;
   populateBasedOnFormControls?: FormControl[];
   optionItemDescription: keyof T;
-  compositeId?: Array<Extract<keyof StringOrNumberProps<T>, string>>;
+  compositeId: Array<Extract<keyof StringOrNumberProps<T>, string>>;
   compositeIdPopulateFormGroup?: FormGroup;
 }
 

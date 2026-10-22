@@ -1,0 +1,48 @@
+<main class="home-page">
+  <section class="hero">
+    <p class="eyebrow">ANGULAR BOOST KIT · COMPONENTES PARA ANGULAR</p>
+    <h1>Componentes prontos para<br />acelerar seu próximo projeto.</h1>
+    <p class="hero-copy">
+      Uma coleção de componentes reutilizáveis para aplicações Angular,
+      publicada como pacote e documentada com exemplos reais.
+    </p>
+    <mat-chip-set aria-label="Recursos da biblioteca">
+      <mat-chip>Standalone</mat-chip>
+      <mat-chip>Angular Material</mat-chip>
+      <mat-chip>TypeScript</mat-chip>
+    </mat-chip-set>
+    <a mat-flat-button color="primary" routerLink="/components/select-virtual-scroll">
+      Explorar componentes
+      <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+    </a>
+  </section>
+
+  <mat-divider />
+
+  <section class="component-list" aria-labelledby="components-title">
+    <div class="section-heading">
+      <p class="eyebrow">BIBLIOTECA DE COMPONENTES</p>
+      <h2 id="components-title">Comece por um componente</h2>
+      <p>Consulte a API, entenda os comportamentos e experimente as demonstrações.</p>
+    </div>
+    <mat-card appearance="outlined" class="component-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>arrow_drop_down_circle</mat-icon>
+        <mat-card-title>Select Virtual Scroll</mat-card-title>
+        <mat-card-subtitle>Seleção, busca e listas grandes</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          Seletor pesquisável com formulários reativos, carregamento assíncrono,
+          seleção múltipla e suporte a opções dependentes.
+        </p>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <a mat-button color="primary" routerLink="/components/select-virtual-scroll">
+          Ver documentação
+          <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+        </a>
+      </mat-card-actions>
+    </mat-card>
+  </section>
+</main>
