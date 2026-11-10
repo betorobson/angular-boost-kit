@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
 
 import { MaterialSelectVirtualScroll } from './material-select-virtual-scroll';
 
@@ -8,12 +9,19 @@ describe('MaterialSelectVirtualScroll', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MaterialSelectVirtualScroll]
-    })
-    .compileComponents();
+      imports: [MaterialSelectVirtualScroll],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MaterialSelectVirtualScroll);
     component = fixture.componentInstance;
+
+    fixture.componentRef.setInput('config', {
+      compositeId: ['id'],
+      populateBasedOnFormControls: true,
+      formControl: new FormControl(null),
+      // demais campos obrigatórios do MaterialSelectVirtualScrollConfig
+    });
+
     fixture.detectChanges();
   });
 

@@ -6,11 +6,10 @@ const jestConfig: Config = {
 	modulePaths: ['<rootDir>/'],
 	// globalSetup: 'jest-preset-angular/global-setup',
 	moduleNameMapper: {
-		'^flat': 'node_modules/flat/index.js'
+		'^angular-boost-kit$': '<rootDir>/projects/angular-boost-kit/src/public-api.ts',
+		'^flat$': '<rootDir>/node_modules/flat/index.js'
 	},
-  modulePathIgnorePatterns: [
-    "/dist/"
-  ]
+	modulePathIgnorePatterns: ['<rootDir>/dist/']
 };
 
 export default jestConfig;
