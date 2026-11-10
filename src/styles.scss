@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 
-// @use 'angular-boost-kit/src/cdk/scss/angular-material.layout-attributes' as *;
+@use 'angular-boost-kit/src/cdk/scss/angular-material.layout-attributes' as *;
 
 html {
   @include mat.theme((
