@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, input, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 import { MatFormField, MatLabel, MatOption, MatSelect, MatSelectTrigger, MatSuffix } from '@angular/material/select';
@@ -35,6 +35,7 @@ import { CdkBoostKitTemplateType } from '../cdk/public-api';
     CdkBoostKitTemplateType
   ],
   templateUrl: './material-select-virtual-scroll.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './material-select-virtual-scroll.css'
 })
 export class MaterialSelectVirtualScroll implements OnInit {

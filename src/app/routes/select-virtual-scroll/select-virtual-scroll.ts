@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CdkBoostKitTemplateType, MaterialSelectVirtualScroll, MaterialSelectVirtualScrollConfig } from 'angular-boost-kit';
 import { APICitiesItem, APIStatesCitiesNeighborhoods, APIStatesItem } from './api-services/states-cities-neighborhoods';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -13,6 +13,7 @@ import { SharedModules } from '../../shared.modules';
     CdkBoostKitTemplateType,
   ],
   templateUrl: './select-virtual-scroll.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './select-virtual-scroll.scss'
 })
 export class SelectVirtualScroll {

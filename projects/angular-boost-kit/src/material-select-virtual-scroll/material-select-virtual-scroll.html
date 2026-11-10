@@ -41,7 +41,7 @@
         <ng-container
           [ngTemplateOutlet]="triggerTemplate || optionTemplate || defaultTemplateSingle"
           [ngTemplateOutletContext]="{
-            templateData: itemSelected?.[0]
+            templateData: $safeNavigationMigration(itemSelected?.[0])
           }"
         ></ng-container>
       }

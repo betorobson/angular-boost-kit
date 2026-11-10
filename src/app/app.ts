@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
@@ -17,6 +17,7 @@ import { SharedModules } from './shared.modules';
     RouterOutlet
   ],
   templateUrl: './app.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.scss'
 })
 export class App {
