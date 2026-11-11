@@ -48,5 +48,6 @@
     "ng-packagr": "^22.2.6",
     "ts-node": "^10.9.2",
     "typescript": "~6.0.3"
-  }
+  },
+  "overrides": { "sass-embedded": "1.97.3" }
 }
